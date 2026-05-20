@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
-namespace Sistema_de_gestion_de_olanes_de_mejoramiento.Datos
+namespace sistemaGestionPlanesDeMejoramiento.Datos
 {
     public class ClConexion
     {

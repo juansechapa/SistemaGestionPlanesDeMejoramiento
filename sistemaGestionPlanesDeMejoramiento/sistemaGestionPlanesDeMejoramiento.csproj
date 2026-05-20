@@ -67,10 +67,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="vista\Admin\InicioAdmin.aspx" />
+    <Content Include="vista\Aprendiz\InicioAprendiz.aspx" />
+    <Content Include="vista\CSS\loginEstilos.css" />
+    <Content Include="vista\Instructor\InicioInstructor.aspx" />
+    <Content Include="vista\Login.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="datos\ClAprendizD.cs" />
+    <Compile Include="datos\ClCentroFormacionD.cs" />
     <Compile Include="datos\ClConexion.cs" />
+    <Compile Include="datos\ClInstructorD.cs" />
+    <Compile Include="datos\ClPlanMejoramientoD.cs" />
+    <Compile Include="datos\ClUsuarioD.cs" />
+    <Compile Include="logica\ClAprendizL.cs" />
+    <Compile Include="logica\ClUsuarioL.cs" />
     <Compile Include="modelo\ClAprendiz.cs" />
     <Compile Include="modelo\ClCentroFormacion.cs" />
     <Compile Include="modelo\ClCentroPrograma.cs" />
@@ -88,6 +100,34 @@
     <Compile Include="modelo\ClRol.cs" />
     <Compile Include="modelo\ClUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="vista\Admin\InicioAdmin.aspx.cs">
+      <DependentUpon>InicioAdmin.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\InicioAdmin.aspx.designer.cs">
+      <DependentUpon>InicioAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Aprendiz\InicioAprendiz.aspx.cs">
+      <DependentUpon>InicioAprendiz.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Aprendiz\InicioAprendiz.aspx.designer.cs">
+      <DependentUpon>InicioAprendiz.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Instructor\InicioInstructor.aspx.cs">
+      <DependentUpon>InicioInstructor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Instructor\InicioInstructor.aspx.designer.cs">
+      <DependentUpon>InicioInstructor.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -98,10 +138,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="logica\" />
-    <Folder Include="vista\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

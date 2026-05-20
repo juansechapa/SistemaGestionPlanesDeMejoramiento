@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Sistema_de_gestion_de_olanes_de_mejoramiento.Modelo
+namespace sistemaGestionPlanesDeMejoramiento.Modelo
 {
     public class ClUsuario
     {
         public int idUsuario { get; set; }
-        public string nombreUsuario { get; set; }
-        public string contrasena { get; set; }
-        public string rol { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
+        public int idRol { get; set; }
     }
 }
