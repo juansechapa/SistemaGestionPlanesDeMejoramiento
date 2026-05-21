@@ -1,16 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="InicioAprendiz.aspx.cs" Inherits="sistemaGestionPlanesDeMejoramiento.vista.Aprendiz" %>
-
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/vista/Aprendiz/AprendizMaster.Master" AutoEventWireup="true" CodeBehind="InicioAprendiz.aspx.cs" Inherits="sistemaGestionPlanesDeMejoramiento.vista.Aprendiz.InicioAprendiz" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <div calss="alert alert-info">
+        <h3>Bienvenido aprendiz.<asp:Label ID="lblBienvenida" runat="server"></asp:Label></h3>
+        <p>Revisa el estado de tus planes de mejoramiento y sube las evidencias requeridas.</p>
         </div>
-    </form>
-</body>
-</html>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="scripts" runat="server">
+</asp:Content>

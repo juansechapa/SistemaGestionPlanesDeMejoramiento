@@ -39,14 +39,14 @@ namespace sistemaGestionPlanesDeMejoramiento.vista
 
                 switch (objUsuario.idRol)
                 {
-                    case 1:  
-                        Response.Redirect("Admin/InicioAdmin.aspx");
+                    case 1:
+                        Response.Redirect("~/vista/Admin/InicioAdmin.aspx");
                         break;
-                    case 2:  
-                        Response.Redirect("Instructor/InicioInstructor.aspx");
+                    case 2:
+                        Response.Redirect("~/vista/Instructor/InicioInstructor.aspx");
                         break;
                     case 3:
-                        Response.Redirect("Aprendiz/InicioAprendiz.aspx");
+                        Response.Redirect("~/vista/Aprendiz/InicioAprendiz.aspx");
                         break;
                     default:
                         lblMensaje.Text = "Rol no reconocido. Contacte al administrador.";

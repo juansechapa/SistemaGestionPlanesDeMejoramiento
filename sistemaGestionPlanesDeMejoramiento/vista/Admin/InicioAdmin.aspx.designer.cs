@@ -7,29 +7,20 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace sistemaGestionPlanesDeMejoramiento.vista
+namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
 {
 
 
-    public partial class admin
+    public partial class InicioAdmin
     {
 
         /// <summary>
-        /// Control form1.
+        /// Control lblBienvenida.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-
-        /// <summary>
-        /// Control lblUsuario.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblUsuario;
+        protected global::System.Web.UI.WebControls.Label lblBienvenida;
     }
 }

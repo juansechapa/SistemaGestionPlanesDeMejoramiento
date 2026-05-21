@@ -67,6 +67,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="vista\Admin\GestionAprendices.aspx" />
+    <Content Include="vista\Admin\GestionCentros.aspx" />
+    <Content Include="vista\Admin\GestionInstructores.aspx" />
     <Content Include="vista\Admin\InicioAdmin.aspx" />
     <Content Include="vista\Aprendiz\InicioAprendiz.aspx" />
     <Content Include="vista\CSS\loginEstilos.css" />
@@ -82,6 +85,8 @@
     <Compile Include="datos\ClPlanMejoramientoD.cs" />
     <Compile Include="datos\ClUsuarioD.cs" />
     <Compile Include="logica\ClAprendizL.cs" />
+    <Compile Include="logica\ClCentroFormacionL.cs" />
+    <Compile Include="logica\ClInstructorL.cs" />
     <Compile Include="logica\ClUsuarioL.cs" />
     <Compile Include="modelo\ClAprendiz.cs" />
     <Compile Include="modelo\ClCentroFormacion.cs" />
@@ -100,12 +105,47 @@
     <Compile Include="modelo\ClRol.cs" />
     <Compile Include="modelo\ClUsuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="vista\Admin\AdminMaster.Master.cs">
+      <DependentUpon>AdminMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\AdminMaster.Master.designer.cs">
+      <DependentUpon>AdminMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Admin\GestionAprendices.aspx.cs">
+      <DependentUpon>GestionAprendices.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\GestionAprendices.aspx.designer.cs">
+      <DependentUpon>GestionAprendices.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Admin\GestionCentros.aspx.cs">
+      <DependentUpon>GestionCentros.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\GestionCentros.aspx.designer.cs">
+      <DependentUpon>GestionCentros.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Admin\GestionInstructores.aspx.cs">
+      <DependentUpon>GestionInstructores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\GestionInstructores.aspx.designer.cs">
+      <DependentUpon>GestionInstructores.aspx</DependentUpon>
+    </Compile>
     <Compile Include="vista\Admin\InicioAdmin.aspx.cs">
       <DependentUpon>InicioAdmin.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="vista\Admin\InicioAdmin.aspx.designer.cs">
       <DependentUpon>InicioAdmin.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Aprendiz\AprendizMaster.Master.cs">
+      <DependentUpon>AprendizMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Aprendiz\AprendizMaster.Master.designer.cs">
+      <DependentUpon>AprendizMaster.Master</DependentUpon>
     </Compile>
     <Compile Include="vista\Aprendiz\InicioAprendiz.aspx.cs">
       <DependentUpon>InicioAprendiz.aspx</DependentUpon>
@@ -121,6 +161,13 @@
     <Compile Include="vista\Instructor\InicioInstructor.aspx.designer.cs">
       <DependentUpon>InicioInstructor.aspx</DependentUpon>
     </Compile>
+    <Compile Include="vista\Instructor\InstructorMaster.Master.cs">
+      <DependentUpon>InstructorMaster.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Instructor\InstructorMaster.Master.designer.cs">
+      <DependentUpon>InstructorMaster.Master</DependentUpon>
+    </Compile>
     <Compile Include="vista\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -131,6 +178,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <Content Include="vista\Admin\AdminMaster.Master" />
+    <Content Include="vista\Aprendiz\AprendizMaster.Master" />
+    <Content Include="vista\Instructor\InstructorMaster.Master" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

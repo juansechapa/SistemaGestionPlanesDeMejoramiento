@@ -17,7 +17,7 @@ namespace sistemaGestionPlanesDeMejoramiento.Modelo
         public string correo { get; set; }
         public string telefono { get; set; }
         public DateTime fechaNacimiento { get; set; }
-        public int IdFicha { get; set; }
-        public int IdUsuario { get; set; }
+        public int idFicha { get; set; }
+        public int idUsuario { get; set; }
     }
 }

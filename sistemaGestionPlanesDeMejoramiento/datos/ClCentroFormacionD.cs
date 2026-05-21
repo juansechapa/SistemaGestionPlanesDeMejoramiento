@@ -10,19 +10,19 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
     {
         ClConexion cn = new ClConexion();
 
-        public bool InsertarCentro(ClCentroFormacion centro)
+        public bool InsertarCentro(ClCentroFormacion centroFormacion)
         {
             bool respuesta = false;
 
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO centro (nombre, direccion, telefono, estado) " +
+                SqlCommand cmd = new SqlCommand("INSERT INTO centroFormacion (nombre, direccion, telefono, estado) " +
                     "VALUES (@nombre, @direccion, @telefono, @estado)", cn.MtAbrirConexion());
 
-                cmd.Parameters.AddWithValue("@nombre", centro.nombre);
-                cmd.Parameters.AddWithValue("@direccion", centro.direccion);
-                cmd.Parameters.AddWithValue("@telefono", centro.telefono);
-                cmd.Parameters.AddWithValue("@estado", centro.estado);
+                cmd.Parameters.AddWithValue("@nombre", centroFormacion.nombre);
+                cmd.Parameters.AddWithValue("@direccion", centroFormacion.direccion);
+                cmd.Parameters.AddWithValue("@telefono", centroFormacion.telefono);
+                cmd.Parameters.AddWithValue("@estado", centroFormacion.estado);
 
                 respuesta = cmd.ExecuteNonQuery() > 0;
             }
@@ -39,7 +39,7 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
 
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT idCentro, nombre, direccion, telefono, estado FROM centro", cn.MtAbrirConexion());
+                SqlCommand cmd = new SqlCommand("SELECT idCentro, nombre, direccion, telefono, estado FROM centroFormacion", cn.MtAbrirConexion());
 
                 SqlDataReader dr = cmd.ExecuteReader();
 
@@ -69,7 +69,7 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
 
             try
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM centro WHERE idCentro = @idCentro", cn.MtAbrirConexion());
+                SqlCommand cmd = new SqlCommand("DELETE FROM centroFormacion WHERE idCentro = @idCentro", cn.MtAbrirConexion());
 
                 cmd.Parameters.AddWithValue("@idCentro", idCentro);
 
@@ -88,7 +88,7 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
 
             try
             {
-                SqlCommand cmd = new SqlCommand("UPDATE centro " +
+                SqlCommand cmd = new SqlCommand("UPDATE centroFormacion " +
                     "SET nombre = @nombre, " +
                     "direccion = @direccion, " +
                     "telefono = @telefono, " +

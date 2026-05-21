@@ -1,17 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="InicioAdmin.aspx.cs" Inherits="sistemaGestionPlanesDeMejoramiento.vista.admin" %>
-
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-        <div>
-             <asp:Label ID="lblUsuario" runat="server" ForeColor="Red"></asp:Label>
-        </div>
-    </form>
-</body>
-</html>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/vista/Admin/AdminMaster.Master" AutoEventWireup="true" CodeBehind="InicioAdmin.aspx.cs" Inherits="sistemaGestionPlanesDeMejoramiento.vista.Admin.InicioAdmin" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <div class="alert alert-info">
+        <h3>Bienvenido, <asp:Label ID="lblBienvenida" runat="server" Text=""></asp:Label></h3>
+        <p>Panel de control del administrador. Desde aquí puedes gestionar centros, instructores, aprendices y planes.</p>
+    </div>
+    <!-- Agregar metodos y demas aqui -->
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="scripts" runat="server">
+</asp:Content>

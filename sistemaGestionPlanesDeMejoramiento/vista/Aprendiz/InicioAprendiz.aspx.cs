@@ -5,13 +5,16 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace sistemaGestionPlanesDeMejoramiento.vista
+namespace sistemaGestionPlanesDeMejoramiento.vista.Aprendiz
 {
-    public partial class Aprendiz : System.Web.UI.Page
+    public partial class InicioAprendiz : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                lblBienvenida.Text = Session["username"].ToString();
+            }
         }
     }
 }
