@@ -68,8 +68,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="vista\Admin\GestionAprendices.aspx" />
+    <Content Include="vista\Admin\GestionCentroPrograma.aspx" />
     <Content Include="vista\Admin\GestionCentros.aspx" />
+    <Content Include="vista\Admin\GestionFichas.aspx" />
     <Content Include="vista\Admin\GestionInstructores.aspx" />
+    <Content Include="vista\Admin\GestionProgramas.aspx" />
     <Content Include="vista\Admin\InicioAdmin.aspx" />
     <Content Include="vista\Aprendiz\InicioAprendiz.aspx" />
     <Content Include="vista\CSS\loginEstilos.css" />
@@ -80,17 +83,24 @@
   <ItemGroup>
     <Compile Include="datos\ClAprendizD.cs" />
     <Compile Include="datos\ClCentroFormacionD.cs" />
+    <Compile Include="datos\ClCentroProgramaD.cs" />
     <Compile Include="datos\ClConexion.cs" />
+    <Compile Include="datos\ClFichaD.cs" />
     <Compile Include="datos\ClInstructorD.cs" />
     <Compile Include="datos\ClPlanMejoramientoD.cs" />
+    <Compile Include="datos\ClProgramaD.cs" />
     <Compile Include="datos\ClUsuarioD.cs" />
     <Compile Include="logica\ClAprendizL.cs" />
     <Compile Include="logica\ClCentroFormacionL.cs" />
+    <Compile Include="logica\ClCentroProgramaL.cs" />
+    <Compile Include="logica\ClFichaL.cs" />
     <Compile Include="logica\ClInstructorL.cs" />
+    <Compile Include="logica\ClProgramaL.cs" />
     <Compile Include="logica\ClUsuarioL.cs" />
     <Compile Include="modelo\ClAprendiz.cs" />
     <Compile Include="modelo\ClCentroFormacion.cs" />
     <Compile Include="modelo\ClCentroPrograma.cs" />
+    <Compile Include="modelo\ClCentroProgramaInfo.cs" />
     <Compile Include="modelo\ClCompetencias.cs" />
     <Compile Include="modelo\ClCriteriosEvaluacion.cs" />
     <Compile Include="modelo\ClEvaluacionPlan.cs" />
@@ -119,6 +129,13 @@
     <Compile Include="vista\Admin\GestionAprendices.aspx.designer.cs">
       <DependentUpon>GestionAprendices.aspx</DependentUpon>
     </Compile>
+    <Compile Include="vista\Admin\GestionCentroPrograma.aspx.cs">
+      <DependentUpon>GestionCentroPrograma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\GestionCentroPrograma.aspx.designer.cs">
+      <DependentUpon>GestionCentroPrograma.aspx</DependentUpon>
+    </Compile>
     <Compile Include="vista\Admin\GestionCentros.aspx.cs">
       <DependentUpon>GestionCentros.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -126,12 +143,26 @@
     <Compile Include="vista\Admin\GestionCentros.aspx.designer.cs">
       <DependentUpon>GestionCentros.aspx</DependentUpon>
     </Compile>
+    <Compile Include="vista\Admin\GestionFichas.aspx.cs">
+      <DependentUpon>GestionFichas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\GestionFichas.aspx.designer.cs">
+      <DependentUpon>GestionFichas.aspx</DependentUpon>
+    </Compile>
     <Compile Include="vista\Admin\GestionInstructores.aspx.cs">
       <DependentUpon>GestionInstructores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="vista\Admin\GestionInstructores.aspx.designer.cs">
       <DependentUpon>GestionInstructores.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Admin\GestionProgramas.aspx.cs">
+      <DependentUpon>GestionProgramas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\GestionProgramas.aspx.designer.cs">
+      <DependentUpon>GestionProgramas.aspx</DependentUpon>
     </Compile>
     <Compile Include="vista\Admin\InicioAdmin.aspx.cs">
       <DependentUpon>InicioAdmin.aspx</DependentUpon>

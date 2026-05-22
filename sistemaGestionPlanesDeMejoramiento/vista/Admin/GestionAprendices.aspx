@@ -11,7 +11,7 @@
         <div class="card-body">
             <asp:GridView ID="gvAprendices" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered table-hover"
                 DataKeyNames="idAprendiz" OnRowCommand="gvAprendices_RowCommand">
-                <Columns>
+                <columns>
                     <asp:BoundField DataField="idAprendiz" HeaderText="ID" />
                     <asp:BoundField DataField="nombres" HeaderText="Nombres" />
                     <asp:BoundField DataField="apellidos" HeaderText="Apellidos" />
@@ -21,19 +21,19 @@
                     <asp:BoundField DataField="telefono" HeaderText="Teléfono" />
                     <asp:BoundField DataField="fechaNacimiento" HeaderText="Fecha Nac." DataFormatString="{0:dd/MM/yyyy}" />
                     <asp:TemplateField HeaderText="Acciones">
-                        <ItemTemplate>
+                        <itemtemplate>
                             <asp:ImageButton runat="server" CommandName="Editar" CommandArgument='<%# Eval("idAprendiz") %>'
                                 CausesValidation="false"
                                 ImageUrl="https://img.icons8.com/ios-glyphs/20/edit.png" ToolTip="Editar" />
                             <asp:ImageButton runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("idAprendiz") %>'
                                 ImageUrl="https://img.icons8.com/ios-glyphs/20/trash.png" ToolTip="Eliminar"
                                 CausesValidation="false" OnClientClick="return confirm('¿Eliminar este aprendiz?');" />
-                        </ItemTemplate>
+                        </itemtemplate>
                     </asp:TemplateField>
-                </Columns>
-                <EmptyDataTemplate>
+                </columns>
+                <emptydatatemplate>
                     <div class="alert alert-info">No hay aprendices registrados.</div>
-                </EmptyDataTemplate>
+                </emptydatatemplate>
             </asp:GridView>
         </div>
     </div>
@@ -87,14 +87,32 @@
                         <asp:RequiredFieldValidator runat="server" ControlToValidate="txtFechaNac" ErrorMessage="*" CssClass="text-danger" ValidationGroup="Aprendiz" />
                     </div>
                     <div class="mb-3">
-                        <label>ID Ficha</label>
-                        <asp:TextBox ID="txtIdFicha" runat="server" CssClass="form-control" TextMode="Number" />
-                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtIdFicha" ErrorMessage="*" CssClass="text-danger" ValidationGroup="Aprendiz" />
+                        <label>Ficha</label>
+                        <asp:DropDownList ID="ddlFicha" runat="server" CssClass="form-select" DataTextField="codigoFicha" DataValueField="idFicha" AppendDataBoundItems="true">
+                            <asp:ListItem Text="-- Seleccione ficha --" Value="" />
+                        </asp:DropDownList>
+                        <asp:RequiredFieldValidator ID="rfvFicha" runat="server" ControlToValidate="ddlFicha" InitialValue="" ErrorMessage="* Seleccione una ficha" CssClass="text-danger" ValidationGroup="Aprendiz" />
                     </div>
-                    <div class="mb-3">
-                        <label>ID Usuario</label>
-                        <asp:TextBox ID="txtIdUsuario" runat="server" CssClass="form-control" TextMode="Number" />
-                        <asp:RequiredFieldValidator runat="server" ControlToValidate="txtIdUsuario" ErrorMessage="*" CssClass="text-danger" ValidationGroup="Aprendiz" />
+                    <!-- Después del campo idFicha (o antes del footer) -->
+                    <div class="border-top pt-3 mt-2" id="divCredenciales" runat="server">
+                        <h6><i class="fas fa-key"></i>Credenciales de acceso</h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label>Nombre de Usuario</label>
+                                    <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" />
+                                    <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ControlToValidate="txtUsername" ErrorMessage="*" CssClass="text-danger" ValidationGroup="Aprendiz" />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label>Contraseña</label>
+                                    <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" />
+                                    <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword" ErrorMessage="*" CssClass="text-danger" ValidationGroup="Aprendiz" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="alert alert-info small">Estas credenciales se usarán para que el aprendiz acceda al sistema con rol de Aprendiz.</div>
                     </div>
                 </div>
                 <div class="modal-footer">

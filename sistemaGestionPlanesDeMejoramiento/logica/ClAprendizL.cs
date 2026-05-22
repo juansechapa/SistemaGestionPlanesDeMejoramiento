@@ -9,10 +9,12 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
     {
         ClAprendizD aprendizD = new ClAprendizD();
 
-        public bool InsertarAprendiz(ClAprendiz aprendiz)
+        public bool InsertarAprendizConUsuario(ClAprendiz aprendiz, string username, string password)
         {
             ValidarAprendiz(aprendiz);
-            return aprendizD.InsertarAprendiz(aprendiz);
+            if (string.IsNullOrWhiteSpace(username)) throw new ArgumentException("Nombre de usuario obligatorio.");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Contraseña obligatoria.");
+            return aprendizD.InsertarAprendizConUsuario(aprendiz, username, password);
         }
 
         public List<ClAprendiz> ListarAprendices()
@@ -23,7 +25,7 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
         public bool ActualizarAprendiz(ClAprendiz aprendiz)
         {
             if (aprendiz.idAprendiz <= 0) throw new ArgumentException("ID inválido");
-            ValidarAprendiz(aprendiz, false);
+            ValidarAprendiz(aprendiz);
             return aprendizD.ActualizarAprendiz(aprendiz);
         }
 
@@ -33,15 +35,15 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
             return aprendizD.EliminarAprendiz(idAprendiz);
         }
 
-        private void ValidarAprendiz(ClAprendiz a, bool esNuevo = true)
+        private void ValidarAprendiz(ClAprendiz a)
         {
-            if (string.IsNullOrWhiteSpace(a.nombres)) throw new ArgumentException("Los nombres son obligatorios.");
-            if (string.IsNullOrWhiteSpace(a.apellidos)) throw new ArgumentException("Los apellidos son obligatorios.");
-            if (string.IsNullOrWhiteSpace(a.numeroDocumento)) throw new ArgumentException("El número de documento es obligatorio.");
-            if (string.IsNullOrWhiteSpace(a.correo)) throw new ArgumentException("El correo es obligatorio.");
-            if (a.fechaNacimiento == DateTime.MinValue) throw new ArgumentException("La fecha de nacimiento es obligatoria.");
+            if (string.IsNullOrWhiteSpace(a.nombres)) throw new ArgumentException("Nombres obligatorios.");
+            if (string.IsNullOrWhiteSpace(a.apellidos)) throw new ArgumentException("Apellidos obligatorios.");
+            if (string.IsNullOrWhiteSpace(a.tipoDocumento)) throw new ArgumentException("Tipo documento obligatorio.");
+            if (string.IsNullOrWhiteSpace(a.numeroDocumento)) throw new ArgumentException("Número documento obligatorio.");
+            if (string.IsNullOrWhiteSpace(a.correo)) throw new ArgumentException("Correo obligatorio.");
+            if (a.fechaNacimiento == DateTime.MinValue) throw new ArgumentException("Fecha nacimiento obligatoria.");
             if (a.idFicha <= 0) throw new ArgumentException("Debe seleccionar una ficha.");
-            if (a.idUsuario <= 0) throw new ArgumentException("Debe seleccionar un usuario.");
         }
     }
 }

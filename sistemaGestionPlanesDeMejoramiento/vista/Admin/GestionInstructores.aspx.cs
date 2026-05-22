@@ -35,6 +35,7 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             hfIdInstructor.Value = "0";
             litModalTitulo.Text = "Nuevo Instructor";
             LimpiarCampos();
+            divCredenciales.Visible = true;
             ClientScript.RegisterStartupScript(this.GetType(), "ShowModal", "mostrarModal();", true);
         }
 
@@ -42,10 +43,13 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
         {
             txtNombres.Text = "";
             txtApellidos.Text = "";
+            ddlTipoDocumento.SelectedIndex = 0;
+            txtNumeroDocumento.Text = "";
             txtCorreo.Text = "";
             txtTelefono.Text = "";
             txtEspecialidad.Text = "";
-            txtIdUsuario.Text = "";
+            txtUsername.Text = "";
+            txtPassword.Text = "";
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -57,15 +61,18 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
                 ClInstructor instructor = new ClInstructor();
                 instructor.nombres = txtNombres.Text.Trim();
                 instructor.apellidos = txtApellidos.Text.Trim();
+                instructor.tipoDocumento = ddlTipoDocumento.SelectedValue;
+                instructor.numeroDocumento = txtNumeroDocumento.Text.Trim();
                 instructor.correo = txtCorreo.Text.Trim();
                 instructor.telefono = txtTelefono.Text.Trim();
                 instructor.especialidad = txtEspecialidad.Text.Trim();
-                instructor.idUsuario = Convert.ToInt32(txtIdUsuario.Text);
 
                 bool ok;
                 if (hfIdInstructor.Value == "0")
                 {
-                    ok = instructorL.InsertarInstructor(instructor);
+                    string username = txtUsername.Text.Trim();
+                    string password = txtPassword.Text.Trim();
+                    ok = instructorL.InsertarInstructorConUsuario(instructor, username, password);
                 }
                 else
                 {
@@ -102,10 +109,14 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
                     litModalTitulo.Text = "Editar Instructor";
                     txtNombres.Text = instructor.nombres;
                     txtApellidos.Text = instructor.apellidos;
+                    ddlTipoDocumento.SelectedValue = instructor.tipoDocumento;
+                    txtNumeroDocumento.Text = instructor.numeroDocumento;
                     txtCorreo.Text = instructor.correo;
                     txtTelefono.Text = instructor.telefono;
                     txtEspecialidad.Text = instructor.especialidad;
-                    txtIdUsuario.Text = instructor.idUsuario.ToString();
+                    divCredenciales.Visible = false;
+                    txtUsername.Text = "";
+                    txtPassword.Text = "";
                     ClientScript.RegisterStartupScript(this.GetType(), "ShowModal", "mostrarModal();", true);
                 }
             }

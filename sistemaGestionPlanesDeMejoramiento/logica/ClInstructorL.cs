@@ -9,11 +9,14 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
     {
         ClInstructorD instructorD = new ClInstructorD();
 
-        public bool InsertarInstructor(ClInstructor instructor)
+        public bool InsertarInstructorConUsuario(ClInstructor instructor, string username, string password)
         {
             ValidarInstructor(instructor);
-            return instructorD.InsertarInstructor(instructor);
+            if (string.IsNullOrWhiteSpace(username)) throw new ArgumentException("El nombre de usuario es obligatorio.");
+            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("La contraseña es obligatoria.");
+            return instructorD.InsertarInstructorConUsuario(instructor, username, password);
         }
+
 
         public List<ClInstructor> ListarInstructores()
         {
@@ -37,8 +40,9 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
         {
             if (string.IsNullOrWhiteSpace(i.nombres)) throw new ArgumentException("Nombres obligatorios.");
             if (string.IsNullOrWhiteSpace(i.apellidos)) throw new ArgumentException("Apellidos obligatorios.");
+            if (string.IsNullOrWhiteSpace(i.tipoDocumento)) throw new ArgumentException("Tipo de documento obligatorio.");
+            if (string.IsNullOrWhiteSpace(i.numeroDocumento)) throw new ArgumentException("Número de documento obligatorio.");
             if (string.IsNullOrWhiteSpace(i.correo)) throw new ArgumentException("Correo obligatorio.");
-            if (i.idUsuario <= 0) throw new ArgumentException("Debe asignar un usuario.");
         }
     }
 }

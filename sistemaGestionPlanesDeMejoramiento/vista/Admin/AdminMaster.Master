@@ -36,6 +36,9 @@
                         <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionAprendices.aspx") %>"><i class="fas fa-users"></i>Aprendices</a></li>
                         <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionProgramas.aspx") %>"><i class="fas fa-graduation-cap"></i>Programas</a></li>
                         <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionPlanes.aspx") %>"><i class="fas fa-clipboard-list"></i>Planes</a></li>
+                        <li class="nav-item mb-2"><asp:HyperLink runat="server" NavigateUrl="~/vista/Admin/GestionCentroPrograma.aspx" CssClass="nav-link"><i class="fas fa-link"></i> Asignar Programas a Centros</asp:HyperLink></li>
+                        <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionFichas.aspx") %>"><i class="fas fa-clipboard-list"></i>Fichas</a></li>
+
                     </ul>
                     <!-- Contenido principal -->
                 </div>

@@ -10,21 +10,40 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
     {
         ClConexion cn = new ClConexion();
 
-        public bool InsertarCentro(ClCentroFormacion centroFormacion)
+        private object SqlValue(string valor)
+        {
+            return string.IsNullOrWhiteSpace(valor) ? (object)DBNull.Value : valor;
+        }
+
+        public bool InsertarCentro(ClCentroFormacion centro)
         {
             bool respuesta = false;
-
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT INTO centroFormacion (nombre, direccion, telefono, estado) " +
-                    "VALUES (@nombre, @direccion, @telefono, @estado)", cn.MtAbrirConexion());
+                SqlCommand cmd = new SqlCommand(
+                    "INSERT INTO centroFormacion (nombre, direccion, telefono, estado) " +
+                    "VALUES (@nombre, @direccion, @telefono, @estado)",
+                    cn.MtAbrirConexion());
 
-                cmd.Parameters.AddWithValue("@nombre", centroFormacion.nombre);
-                cmd.Parameters.AddWithValue("@direccion", centroFormacion.direccion);
-                cmd.Parameters.AddWithValue("@telefono", centroFormacion.telefono);
-                cmd.Parameters.AddWithValue("@estado", centroFormacion.estado);
+                cmd.Parameters.AddWithValue("@nombre", centro.nombre);
+                cmd.Parameters.AddWithValue("@direccion", SqlValue(centro.direccion));
+                cmd.Parameters.AddWithValue("@telefono", SqlValue(centro.telefono));
+                cmd.Parameters.AddWithValue("@estado", centro.estado);
 
                 respuesta = cmd.ExecuteNonQuery() > 0;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627)
+                {
+                    if (ex.Message.Contains("UQ_nombreCentro"))
+                        throw new Exception("Ya existe un centro con ese nombre.");
+                    else if (ex.Message.Contains("UQ_direccion_Centro"))  
+                        throw new Exception("Ya existe un centro con esa dirección.");
+                    else
+                        throw new Exception("Error de duplicado en la base de datos.");
+                }
+                throw;
             }
             finally
             {
@@ -36,24 +55,22 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
         public List<ClCentroFormacion> ListarCentros()
         {
             List<ClCentroFormacion> lista = new List<ClCentroFormacion>();
-
             try
             {
-                SqlCommand cmd = new SqlCommand("SELECT idCentro, nombre, direccion, telefono, estado FROM centroFormacion", cn.MtAbrirConexion());
-
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT idCentro, nombre, direccion, telefono, estado FROM centroFormacion",
+                    cn.MtAbrirConexion());
                 SqlDataReader dr = cmd.ExecuteReader();
-
                 while (dr.Read())
                 {
-                    ClCentroFormacion centro = new ClCentroFormacion()
+                    lista.Add(new ClCentroFormacion
                     {
                         idCentro = Convert.ToInt32(dr["idCentro"]),
-                        nombre = Convert.ToString(dr["nombre"]),
-                        direccion = Convert.ToString(dr["direccion"]),
-                        telefono = Convert.ToString(dr["telefono"]),
+                        nombre = dr["nombre"].ToString(),
+                        direccion = dr["direccion"] != DBNull.Value ? dr["direccion"].ToString() : null,
+                        telefono = dr["telefono"] != DBNull.Value ? dr["telefono"].ToString() : null,
                         estado = Convert.ToBoolean(dr["estado"])
-                    };
-                    lista.Add(centro);
+                    });
                 }
                 dr.Close();
             }
@@ -63,17 +80,37 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             }
             return lista;
         }
-        public bool EliminarCentro(int idCentro)
+
+        public bool ActualizarCentro(ClCentroFormacion centro)
         {
             bool respuesta = false;
-
             try
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM centroFormacion WHERE idCentro = @idCentro", cn.MtAbrirConexion());
+                SqlCommand cmd = new SqlCommand(
+                    "UPDATE centroFormacion SET nombre = @nombre, direccion = @direccion, " +
+                    "telefono = @telefono, estado = @estado WHERE idCentro = @idCentro",
+                    cn.MtAbrirConexion());
 
-                cmd.Parameters.AddWithValue("@idCentro", idCentro);
+                cmd.Parameters.AddWithValue("@idCentro", centro.idCentro);
+                cmd.Parameters.AddWithValue("@nombre", centro.nombre);
+                cmd.Parameters.AddWithValue("@direccion", SqlValue(centro.direccion));
+                cmd.Parameters.AddWithValue("@telefono", SqlValue(centro.telefono));
+                cmd.Parameters.AddWithValue("@estado", centro.estado);
 
                 respuesta = cmd.ExecuteNonQuery() > 0;
+            }
+            catch (SqlException ex)
+            {
+                if (ex.Number == 2627)
+                {
+                    if (ex.Message.Contains("UQ_nombreCentro"))
+                        throw new Exception("Ya existe otro centro con ese nombre.");
+                    else if (ex.Message.Contains("UQ_direccionCentro"))
+                        throw new Exception("Ya existe otro centro con esa dirección.");
+                    else
+                        throw new Exception("Error de duplicado.");
+                }
+                throw;
             }
             finally
             {
@@ -82,25 +119,13 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             return respuesta;
         }
 
-        public bool ActualizarCentro(ClCentroFormacion centro)
+        public bool EliminarCentro(int idCentro)
         {
             bool respuesta = false;
-
             try
             {
-                SqlCommand cmd = new SqlCommand("UPDATE centroFormacion " +
-                    "SET nombre = @nombre, " +
-                    "direccion = @direccion, " +
-                    "telefono = @telefono, " +
-                    "estado = @estado " +
-                    "WHERE idCentro = @idCentro", cn.MtAbrirConexion());
-
-                cmd.Parameters.AddWithValue("@idCentro", centro.idCentro);
-                cmd.Parameters.AddWithValue("@nombre", centro.nombre);
-                cmd.Parameters.AddWithValue("@direccion", centro.direccion);
-                cmd.Parameters.AddWithValue("@telefono", centro.telefono);
-                cmd.Parameters.AddWithValue("@estado", centro.estado);
-
+                SqlCommand cmd = new SqlCommand("DELETE FROM centroFormacion WHERE idCentro = @idCentro", cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idCentro", idCentro);
                 respuesta = cmd.ExecuteNonQuery() > 0;
             }
             finally

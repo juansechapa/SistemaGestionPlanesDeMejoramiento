@@ -15,7 +15,7 @@ namespace sistemaGestionPlanesDeMejoramiento.Modelo
         public String jornada {  get; set; }
         public String nivel { get; set; }
         public String duracion { get; set; }
-        public Boolean estado { get; set; }
+        public String estado { get; set; }
 
     }
 }

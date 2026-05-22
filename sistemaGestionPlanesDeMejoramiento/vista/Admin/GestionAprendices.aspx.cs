@@ -1,4 +1,5 @@
-﻿using sistemaGestionPlanesDeMejoramiento.logica;
+﻿using sistemaGestionPlanesDeMejoramiento.datos;
+using sistemaGestionPlanesDeMejoramiento.logica;
 using sistemaGestionPlanesDeMejoramiento.Modelo;
 using System;
 using System.Web.UI;
@@ -27,7 +28,7 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
         protected void btnNuevo_Click(object sender, EventArgs e)
         {
             hfIdAprendiz.Value = "0";
-            litTitulo.Text = "Nuevo Aprendiz";
+            divCredenciales.Visible = true;
             LimpiarCampos();
             ClientScript.RegisterStartupScript(this.GetType(), "show", "mostrarModal();", true);
         }
@@ -41,46 +42,46 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             txtCorreo.Text = "";
             txtTelefono.Text = "";
             txtFechaNac.Text = "";
-            txtIdFicha.Text = "";
-            txtIdUsuario.Text = "";
+            ddlFicha.SelectedIndex = 0;
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
             if (!Page.IsValid) return;
-
             try
             {
-                ClAprendiz a = new ClAprendiz();
-                a.nombres = txtNombres.Text.Trim();
-                a.apellidos = txtApellidos.Text.Trim();
-                a.tipoDocumento = ddlTipoDoc.SelectedValue;
-                a.numeroDocumento = txtNumDoc.Text.Trim();
-                a.correo = txtCorreo.Text.Trim();
-                a.telefono = txtTelefono.Text.Trim();
-                a.fechaNacimiento = DateTime.Parse(txtFechaNac.Text);
-                a.idFicha = int.Parse(txtIdFicha.Text);
-                a.idUsuario = int.Parse(txtIdUsuario.Text);
+                ClAprendiz aprendiz = new ClAprendiz();
+                aprendiz.nombres = txtNombres.Text.Trim();
+                aprendiz.apellidos = txtApellidos.Text.Trim();
+                aprendiz.tipoDocumento = ddlTipoDoc.SelectedValue;
+                aprendiz.numeroDocumento = txtNumDoc.Text.Trim();
+                aprendiz.correo = txtCorreo.Text.Trim();
+                aprendiz.telefono = txtTelefono.Text.Trim();
+                aprendiz.fechaNacimiento = DateTime.Parse(txtFechaNac.Text);
+                aprendiz.idFicha = Convert.ToInt32(ddlFicha.SelectedValue);
 
                 bool ok;
                 if (hfIdAprendiz.Value == "0")
-                    ok = aprendizL.InsertarAprendiz(a);
+                {
+                    string username = txtUsername.Text.Trim();
+                    string password = txtPassword.Text.Trim();
+                    ok = aprendizL.InsertarAprendizConUsuario(aprendiz, username, password);
+                }
                 else
                 {
-                    a.idAprendiz = int.Parse(hfIdAprendiz.Value);
-                    ok = aprendizL.ActualizarAprendiz(a);
+                    aprendiz.idAprendiz = Convert.ToInt32(hfIdAprendiz.Value);
+                    ok = aprendizL.ActualizarAprendiz(aprendiz);
                 }
 
                 if (ok)
                 {
                     CargarGrid();
-                    ClientScript.RegisterStartupScript(this.GetType(), "hide", "ocultarModal();", true);
-                    MostrarAlerta("Guardado correctamente.", "success");
+                    MostrarAlerta("Aprendiz guardado correctamente.", "success");
                 }
             }
             catch (Exception ex)
             {
-                MostrarAlerta(ex.Message, "danger");
+                MostrarAlerta("Error: " + ex.Message, "danger");
             }
         }
 
@@ -101,8 +102,10 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
                     txtCorreo.Text = aprendiz.correo;
                     txtTelefono.Text = aprendiz.telefono;
                     txtFechaNac.Text = aprendiz.fechaNacimiento.ToString("yyyy-MM-dd");
-                    txtIdFicha.Text = aprendiz.idFicha.ToString();
-                    txtIdUsuario.Text = aprendiz.idUsuario.ToString();
+                    ddlFicha.SelectedIndex = 0;
+                    divCredenciales.Visible = false;
+                    txtUsername.Text = "";
+                    txtPassword.Text = "";
                     ClientScript.RegisterStartupScript(this.GetType(), "show", "mostrarModal();", true);
                 }
             }
@@ -115,6 +118,15 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
                 }
                 else MostrarAlerta("No se pudo eliminar.", "danger");
             }
+        }
+
+
+        private void CargarFichas()
+        {
+            ClFichaD fichaD = new ClFichaD();
+            ddlFicha.DataSource = fichaD.ListarFichas();
+            ddlFicha.DataBind();
+            ddlFicha.Items.Insert(0, new ListItem("-- Seleccione ficha --", ""));
         }
 
         private void MostrarAlerta(string msg, string tipo)

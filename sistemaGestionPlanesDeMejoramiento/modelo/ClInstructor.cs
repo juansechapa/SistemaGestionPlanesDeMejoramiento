@@ -9,15 +9,12 @@ namespace sistemaGestionPlanesDeMejoramiento.Modelo
     {
         public int idInstructor { get; set; }
         public String nombres { get; set; }
-
         public String apellidos { get; set; }
-
+        public String tipoDocumento { get; set; }
+        public String numeroDocumento { get; set; }
         public String correo { get; set; }
-
         public String telefono { get; set; }
-
         public String especialidad { get; set; }
-
         public int idUsuario { get; set; }
 
     }

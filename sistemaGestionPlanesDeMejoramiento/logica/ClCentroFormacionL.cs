@@ -11,7 +11,6 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
 
         public bool InsertarCentro(ClCentroFormacion centro)
         {
-            // Validaciones de negocio
             if (centro == null)
                 throw new ArgumentNullException(nameof(centro), "El centro no puede ser nulo.");
 
@@ -23,7 +22,6 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
 
         public List<ClCentroFormacion> ListarCentros()
         {
-            // Metodo para filtrar mas adelante por centro
             return centroD.ListarCentros();
         }
 
@@ -35,6 +33,7 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
                 throw new ArgumentException("ID de centro inválido.");
             if (string.IsNullOrWhiteSpace(centro.nombre))
                 throw new ArgumentException("El nombre es obligatorio.");
+
 
             return centroD.ActualizarCentro(centro);
         }
