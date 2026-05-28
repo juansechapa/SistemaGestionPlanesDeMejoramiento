@@ -11,10 +11,14 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Instructor
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (Session["Usuario"] == null || Convert.ToInt32(Session["idRol"]) != 2)
             {
-                lblBienvenida.Text = Session["username"].ToString();
+                Response.Redirect("~/vista/Login.aspx");
+                return;
             }
+
+            if (!IsPostBack)
+                lblBienvenida.Text = Session["username"].ToString();
         }
     }
 }

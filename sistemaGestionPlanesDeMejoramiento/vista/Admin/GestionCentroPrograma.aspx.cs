@@ -37,6 +37,20 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
                 ddlCentro.Items.Insert(0, new ListItem("No hay centros registrados", "0"));
         }
 
+        protected void gvAsignados_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvAsignados.PageIndex = e.NewPageIndex;
+            int idCentro = Convert.ToInt32(ddlCentro.SelectedValue);
+            CargarAsignacion(idCentro);
+        }
+
+        protected void gvDisponibles_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvDisponibles.PageIndex = e.NewPageIndex;
+            int idCentro = Convert.ToInt32(ddlCentro.SelectedValue);
+            CargarAsignacion(idCentro);
+        }
+
         protected void ddlCentro_SelectedIndexChanged(object sender, EventArgs e)
         {
             int idCentro;

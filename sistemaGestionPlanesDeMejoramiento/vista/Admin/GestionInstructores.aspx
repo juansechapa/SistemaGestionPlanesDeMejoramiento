@@ -12,8 +12,9 @@
     <div class="card shadow">
         <div class="card-body">
             <asp:GridView ID="gvInstructores" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered table-hover"
-                DataKeyNames="idInstructor" OnRowCommand="gvInstructores_RowCommand">
-                <columns>
+                DataKeyNames="idInstructor" OnRowCommand="gvInstructores_RowCommand"
+                AllowPaging="True" PageSize="15" OnPageIndexChanging="gvInstructores_PageIndexChanging">
+                <Columns>
                     <asp:BoundField DataField="idInstructor" HeaderText="ID" ReadOnly="True" />
                     <asp:BoundField DataField="nombres" HeaderText="Nombres" />
                     <asp:BoundField DataField="apellidos" HeaderText="Apellidos" />
@@ -22,25 +23,41 @@
                     <asp:BoundField DataField="correo" HeaderText="Correo" />
                     <asp:BoundField DataField="telefono" HeaderText="Teléfono" />
                     <asp:BoundField DataField="especialidad" HeaderText="Especialidad" />
-                    <asp:TemplateField HeaderText="Acciones">
-                        <itemtemplate>
-                            <asp:ImageButton ID="btnEditar" runat="server" CommandName="Editar" CommandArgument='<%# Eval("idInstructor") %>'
-                                ImageUrl="https://img.icons8.com/ios-glyphs/20/000000/edit--v1.png" ToolTip="Editar" CausesValidation="false" />
-                            <asp:ImageButton ID="btnEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("idInstructor") %>'
-                                ImageUrl="https://img.icons8.com/ios-glyphs/20/000000/trash.png" ToolTip="Eliminar" CausesValidation="false"
-                                OnClientClick="return confirm('¿Está seguro de eliminar este instructor?');" />
-                        </itemtemplate>
-                        <itemstyle width="80px" />
+                    <asp:TemplateField HeaderText="Fichas" ItemStyle-CssClass="text-center text-nowrap">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="btnFichas" runat="server" CommandName="AsignarFichas"
+                                CommandArgument='<%# Eval("idInstructor") %>'
+                                CssClass="btn-action btn-action-view" ToolTip="Asignar fichas" CausesValidation="false">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </asp:LinkButton>
+                        </ItemTemplate>
+                        <ItemStyle Width="60px" />
                     </asp:TemplateField>
-                </columns>
-                <emptydatatemplate>
+                    <asp:TemplateField HeaderText="Acciones" ItemStyle-CssClass="text-center text-nowrap">
+                        <ItemTemplate>
+                            <div class="d-flex justify-content-center gap-2">
+                                <asp:LinkButton ID="btnEditar" runat="server" CommandName="Editar" CommandArgument='<%# Eval("idInstructor") %>'
+                                    CssClass="btn-action btn-action-edit" ToolTip="Editar" CausesValidation="false">
+                                    <i class="fas fa-pen"></i>
+                                </asp:LinkButton>
+                                <asp:LinkButton ID="btnEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("idInstructor") %>'
+                                    CssClass="btn-action btn-action-delete" ToolTip="Eliminar" CausesValidation="false"
+                                    OnClientClick="return confirmarEliminacion(this, 'Seguro que desea eliminar este instructor?');">
+                                    <i class="fas fa-trash-alt"></i>
+                                </asp:LinkButton>
+                            </div>
+                        </ItemTemplate>
+                        <ItemStyle Width="80px" />
+                    </asp:TemplateField>
+                </Columns>
+                <EmptyDataTemplate>
                     <div class="alert alert-info">No hay instructores registrados.</div>
-                </emptydatatemplate>
+                </EmptyDataTemplate>
             </asp:GridView>
         </div>
     </div>
 
-    <!-- Modal nuevo/editar instructor -->
+    <!-- Modal nuevo/editar instructor (sin cambios) -->
     <asp:HiddenField ID="hfIdInstructor" runat="server" />
     <div class="modal fade" id="modalInstructor" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -145,6 +162,26 @@
             </div>
         </div>
     </div>
+
+    <!-- NUEVO MODAL para asignar fichas -->
+    <div class="modal fade" id="modalFichas" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Asignar fichas al instructor</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <asp:CheckBoxList ID="cblFichas" runat="server" CssClass="list-unstyled" DataTextField="codigoFicha" DataValueField="idFicha" />
+                    <asp:HiddenField ID="hfIdInstructorFichas" runat="server" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <asp:Button ID="btnGuardarFichas" runat="server" Text="Guardar asignación" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnGuardarFichas_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="scripts" runat="server">
@@ -155,6 +192,16 @@
         }
         function ocultarModal() {
             var modal = bootstrap.Modal.getInstance(document.getElementById('modalInstructor'));
+            if (modal) modal.hide();
+        }
+
+        function mostrarModalFichas() {
+            var modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('modalFichas'));
+            modal.show();
+        }
+
+        function ocultarModalFichas() {
+            var modal = bootstrap.Modal.getInstance(document.getElementById('modalFichas'));
             if (modal) modal.hide();
         }
     </script>

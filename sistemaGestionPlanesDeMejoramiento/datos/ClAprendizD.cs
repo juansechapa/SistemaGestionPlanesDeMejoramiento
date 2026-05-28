@@ -9,29 +9,27 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
     public class ClAprendizD
     {
         ClConexion cn = new ClConexion();
-
-        // Nuevo método: insertar aprendiz con usuario (rol = 3)
+        //Inserta de forma automatica el rol = 3(aprendiz)
         public bool InsertarAprendizConUsuario(ClAprendiz aprendiz, string username, string password)
         {
             bool respuesta = false;
             SqlTransaction trans = null;
+            SqlConnection conexion = null;
             try
             {
-                cn.MtAbrirConexion();
+                conexion = cn.MtAbrirConexion();
+                trans = conexion.BeginTransaction();
 
-
-                // 1. Insertar en usuarios (rol = 3)
                 string sqlUser = "INSERT INTO usuarios (username, password, idRol) VALUES (@u, @p, 3); SELECT SCOPE_IDENTITY();";
-                SqlCommand cmdUser = new SqlCommand(sqlUser, cn.MtAbrirConexion(), trans);
+                SqlCommand cmdUser = new SqlCommand(sqlUser, conexion, trans);
                 cmdUser.Parameters.AddWithValue("@u", username);
-                cmdUser.Parameters.AddWithValue("@p", password); // encriptar
+                cmdUser.Parameters.AddWithValue("@p", ClUsuarioD.HashPassword(password));
                 int idUsuario = Convert.ToInt32(cmdUser.ExecuteScalar());
 
-                // 2. Insertar en aprendiz con ese idUsuario
                 SqlCommand cmdIns = new SqlCommand(
-                    "INSERT INTO aprendiz (nombres, apellidos, tipoDocumento, numeroDocumento, correo, telefono, fechaNacimiento, idFicha, idUsuario) " +
-                    "VALUES (@nombres, @apellidos, @tipoDocumento, @numeroDocumento, @correo, @telefono, @fechaNacimiento, @idFicha, @idUsuario)",
-                    cn.MtAbrirConexion(), trans);
+                    "INSERT INTO aprendiz (nombres, apellidos, tipoDocumento, numeroDocumento, correo, telefono, fechaNacimiento, idFicha, idUsuario, estado) " +
+                    "VALUES (@nombres, @apellidos, @tipoDocumento, @numeroDocumento, @correo, @telefono, @fechaNacimiento, @idFicha, @idUsuario, @estado)",
+                    conexion, trans);
 
                 cmdIns.Parameters.AddWithValue("@nombres", aprendiz.nombres);
                 cmdIns.Parameters.AddWithValue("@apellidos", aprendiz.apellidos);
@@ -42,6 +40,7 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 cmdIns.Parameters.AddWithValue("@fechaNacimiento", aprendiz.fechaNacimiento);
                 cmdIns.Parameters.AddWithValue("@idFicha", aprendiz.idFicha);
                 cmdIns.Parameters.AddWithValue("@idUsuario", idUsuario);
+                cmdIns.Parameters.AddWithValue("@estado", "En Formación");//Estado por defecto
 
                 cmdIns.ExecuteNonQuery();
                 trans.Commit();
@@ -54,9 +53,9 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 {
                     if (ex.Message.Contains("UQ_correoAprendiz"))
                         throw new Exception("Ya existe un aprendiz con ese correo electrónico.");
-                    else if (ex.Message.Contains("UQ_numeroDocumento"))
+                    if (ex.Message.Contains("UQ_numeroDocumento"))
                         throw new Exception("Ya existe un aprendiz con ese número de documento.");
-                    else if (ex.Message.Contains("UQ_Username"))
+                    if (ex.Message.Contains("UQ_Username"))
                         throw new Exception("El nombre de usuario ya existe. Elija otro.");
                 }
                 throw;
@@ -81,7 +80,8 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 SqlCommand cmd = new SqlCommand(
                     "UPDATE aprendiz SET nombres=@nombres, apellidos=@apellidos, tipoDocumento=@tipoDocumento, " +
                     "numeroDocumento=@numeroDocumento, correo=@correo, telefono=@telefono, fechaNacimiento=@fechaNacimiento, idFicha=@idFicha " +
-                    "WHERE idAprendiz=@idAprendiz", cn.MtAbrirConexion());
+                    "WHERE idAprendiz=@idAprendiz",
+                    cn.MtAbrirConexion());
 
                 cmd.Parameters.AddWithValue("@idAprendiz", aprendiz.idAprendiz);
                 cmd.Parameters.AddWithValue("@nombres", aprendiz.nombres);
@@ -101,10 +101,26 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 {
                     if (ex.Message.Contains("UQ_correoAprendiz"))
                         throw new Exception("Ya existe otro aprendiz con ese correo.");
-                    else if (ex.Message.Contains("UQ_numeroDocumento"))
+                    if (ex.Message.Contains("UQ_numeroDocumento"))
                         throw new Exception("Ya existe otro aprendiz con ese número de documento.");
                 }
                 throw;
+            }
+            finally { cn.MtCerrarConexion(); }
+            return respuesta;
+        }
+
+        public bool ActualizarEstadoAprendiz(int idAprendiz, string nuevoEstado)
+        {
+            bool respuesta = false;
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "UPDATE aprendiz SET estado = @estado WHERE idAprendiz = @id",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@estado", nuevoEstado);
+                cmd.Parameters.AddWithValue("@id", idAprendiz);
+                respuesta = cmd.ExecuteNonQuery() > 0;
             }
             finally { cn.MtCerrarConexion(); }
             return respuesta;
@@ -116,8 +132,9 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             try
             {
                 SqlCommand cmd = new SqlCommand(
-                    "SELECT idAprendiz, nombres, apellidos, tipoDocumento, numeroDocumento, correo, telefono, fechaNacimiento, idFicha, idUsuario " +
-                    "FROM aprendiz", cn.MtAbrirConexion());
+                    "SELECT idAprendiz, nombres, apellidos, tipoDocumento, numeroDocumento, correo, telefono, fechaNacimiento, idFicha, idUsuario, estado " +
+                    "FROM aprendiz",
+                    cn.MtAbrirConexion());
                 SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
@@ -132,7 +149,8 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                         telefono = dr["telefono"] != DBNull.Value ? dr["telefono"].ToString() : null,
                         fechaNacimiento = Convert.ToDateTime(dr["fechaNacimiento"]),
                         idFicha = Convert.ToInt32(dr["idFicha"]),
-                        idUsuario = Convert.ToInt32(dr["idUsuario"])
+                        idUsuario = Convert.ToInt32(dr["idUsuario"]),
+                        estado = dr["estado"].ToString()
                     });
                 }
                 dr.Close();
@@ -140,6 +158,7 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             finally { cn.MtCerrarConexion(); }
             return lista;
         }
+
         public bool EliminarAprendiz(int idAprendiz)
         {
             bool respuesta = false;
@@ -152,5 +171,132 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             finally { cn.MtCerrarConexion(); }
             return respuesta;
         }
+
+        public System.Data.DataTable ListarAprendicesPorInstructor(int idInstructor)
+        {
+            System.Data.DataTable dt = new System.Data.DataTable();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT a.idAprendiz, a.nombres, a.apellidos, a.correo, a.estado, f.codigoFicha " +
+                    "FROM aprendiz a INNER JOIN ficha f ON a.idFicha = f.idFicha " +
+                    "INNER JOIN instructorFicha ifc ON f.idFicha = ifc.idFicha " +
+                    "WHERE ifc.idInstructor = @idInstructor " +
+                    "ORDER BY a.apellidos, a.nombres",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idInstructor", idInstructor);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+            }
+            finally { cn.MtCerrarConexion(); }
+            return dt;
+        }
+
+        public bool AprendizEstaCancelado(int idAprendiz)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT COUNT(1)
+                      FROM aprendiz
+                      WHERE idAprendiz = @idAprendiz
+                        AND LOWER(LTRIM(RTRIM(ISNULL(estado, '')))) IN ('cancelado', 'canselado', 'cancelada', 'canselada')",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idAprendiz", idAprendiz);
+                return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+            }
+            finally { cn.MtCerrarConexion(); }
+        }
+
+        public bool AprendizEstaCanceladoPorIdUsuario(int idUsuario)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT COUNT(1)
+                      FROM aprendiz
+                      WHERE idUsuario = @idUsuario
+                        AND LOWER(LTRIM(RTRIM(ISNULL(estado, '')))) IN ('cancelado', 'canselado', 'cancelada', 'canselada')",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
+            }
+            finally { cn.MtCerrarConexion(); }
+        }
+
+        public ClAprendiz ObtenerAprendizPorIdUsuario(int idUsuario)
+        {
+            ClAprendiz aprendiz = null;
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT idAprendiz, nombres, apellidos, tipoDocumento, numeroDocumento, correo, telefono, fechaNacimiento, idFicha, idUsuario, estado " +
+                    "FROM aprendiz WHERE idUsuario = @idUsuario",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
+                {
+                    aprendiz = new ClAprendiz
+                    {
+                        idAprendiz = Convert.ToInt32(dr["idAprendiz"]),
+                        nombres = dr["nombres"].ToString(),
+                        apellidos = dr["apellidos"].ToString(),
+                        tipoDocumento = dr["tipoDocumento"].ToString(),
+                        numeroDocumento = dr["numeroDocumento"].ToString(),
+                        correo = dr["correo"].ToString(),
+                        telefono = dr["telefono"] != DBNull.Value ? dr["telefono"].ToString() : null,
+                        fechaNacimiento = Convert.ToDateTime(dr["fechaNacimiento"]),
+                        idFicha = Convert.ToInt32(dr["idFicha"]),
+                        idUsuario = Convert.ToInt32(dr["idUsuario"]),
+                        estado = dr["estado"].ToString()
+                    };
+                }
+                dr.Close();
+            }
+            finally { cn.MtCerrarConexion(); }
+            return aprendiz;
+        }
+
+        public List<ClResultado> ObtenerResultadosPendientes(int idAprendiz)
+        {
+            List<ClResultado> lista = new List<ClResultado>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT ra.idResultado, ra.codigo, ra.descripcion
+              FROM resultadosAprendizaje ra
+              INNER JOIN competencias c ON ra.idCompetencias = c.idCompetencias
+              INNER JOIN programa p ON c.idPrograma = p.idPrograma
+              INNER JOIN centroPrograma cp ON p.idPrograma = cp.idPrograma
+              INNER JOIN ficha f ON cp.idCentroPrograma = f.idCentroPrograma
+              INNER JOIN aprendiz a ON f.idFicha = a.idFicha
+              WHERE a.idAprendiz = @idAprendiz
+                AND ra.idResultado NOT IN (
+                    SELECT pr.idResultado
+                    FROM planMejoramiento pm
+                    INNER JOIN planResultado pr ON pm.idPlanMejoramiento = pr.idPlanMejoramiento
+                    WHERE pm.idAprendiz = @idAprendiz
+                      AND pm.estadoPlan = 'Aprobado'
+                )",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idAprendiz", idAprendiz);
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    lista.Add(new ClResultado
+                    {
+                        idResultado = Convert.ToInt32(dr["idResultado"]),
+                        codigo = dr["codigo"].ToString(),
+                        descripcion = dr["descripcion"].ToString()
+                    });
+                }
+                dr.Close();
+            }
+            finally { cn.MtCerrarConexion(); }
+            return lista;
+        }
+
     }
 }

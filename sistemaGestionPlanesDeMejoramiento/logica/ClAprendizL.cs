@@ -29,6 +29,23 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
             return aprendizD.ActualizarAprendiz(aprendiz);
         }
 
+        public System.Data.DataTable ListarAprendicesPorInstructor(int idInstructor)
+        {
+            return aprendizD.ListarAprendicesPorInstructor(idInstructor);
+        }
+
+        public bool AprendizEstaCancelado(int idAprendiz)
+        {
+            if (idAprendiz <= 0) throw new ArgumentException("Aprendiz inválido.");
+            return aprendizD.AprendizEstaCancelado(idAprendiz);
+        }
+
+        public ClAprendiz ObtenerAprendizPorIdUsuario(int idUsuario)
+        {
+            if (idUsuario <= 0) throw new ArgumentException("Usuario inválido.");
+            return aprendizD.ObtenerAprendizPorIdUsuario(idUsuario);
+        }
+
         public bool EliminarAprendiz(int idAprendiz)
         {
             if (idAprendiz <= 0) throw new ArgumentException("ID inválido");
@@ -44,6 +61,10 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
             if (string.IsNullOrWhiteSpace(a.correo)) throw new ArgumentException("Correo obligatorio.");
             if (a.fechaNacimiento == DateTime.MinValue) throw new ArgumentException("Fecha nacimiento obligatoria.");
             if (a.idFicha <= 0) throw new ArgumentException("Debe seleccionar una ficha.");
+        }
+        public List<ClResultado> ObtenerResultadosPendientes(int idAprendiz)
+        {
+            return aprendizD.ObtenerResultadosPendientes(idAprendiz);
         }
     }
 }

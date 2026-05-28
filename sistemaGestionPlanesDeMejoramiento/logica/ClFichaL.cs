@@ -2,6 +2,7 @@
 using sistemaGestionPlanesDeMejoramiento.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace sistemaGestionPlanesDeMejoramiento.logica
 {
@@ -54,6 +55,9 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
             if (string.IsNullOrWhiteSpace(f.estado))
                 throw new ArgumentException("El estado es obligatorio.");
         }
-        
+        public List<ClFicha> ListarFichasActivas()
+        {
+            return fichaD.ListarFichas().Where(f => f.estado == "Activa").ToList();
+        }
     }
 }

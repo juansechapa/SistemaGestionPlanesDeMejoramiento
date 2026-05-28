@@ -36,5 +36,11 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
         {
             return cpD.ListarCentroProgramaInfo();
         }
+
+        public ClCentroProgramaInfo ObtenerInfoCentroPrograma(int idCentroPrograma)
+        {
+            if (idCentroPrograma <= 0) throw new ArgumentException("Centro-programa inválido");
+            return cpD.ObtenerInfoCentroPrograma(idCentroPrograma);
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 string sqlUser = "INSERT INTO usuarios (username, password, idRol) VALUES (@u, @p, 2); SELECT SCOPE_IDENTITY();";
                 SqlCommand cmdUser = new SqlCommand(sqlUser, conn, trans);
                 cmdUser.Parameters.AddWithValue("@u", username);
-                cmdUser.Parameters.AddWithValue("@p", password);  
+                cmdUser.Parameters.AddWithValue("@p", ClUsuarioD.HashPassword(password));  
                 int idUsuario = Convert.ToInt32(cmdUser.ExecuteScalar());
 
                 SqlCommand cmdIns = new SqlCommand(

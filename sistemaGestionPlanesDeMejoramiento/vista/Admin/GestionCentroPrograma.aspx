@@ -27,14 +27,15 @@
                 </div>
                 <div class="card-body">
                     <asp:GridView ID="gvAsignados" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered table-sm"
-                        DataKeyNames="idPrograma" OnRowCommand="gvAsignados_RowCommand">
+                        DataKeyNames="idPrograma" OnRowCommand="gvAsignados_RowCommand"
+                        AllowPaging="True" PageSize="15" OnPageIndexChanging="gvAsignados_PageIndexChanging">
                         <Columns>
                             <asp:BoundField DataField="codigoPrograma" HeaderText="Código" />
                             <asp:BoundField DataField="nombre" HeaderText="Nombre" />
                             <asp:TemplateField HeaderText="Quitar">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="btnQuitar" runat="server" CommandName="Quitar" CommandArgument='<%# Eval("idPrograma") %>'
-                                        CssClass="btn btn-danger btn-sm" OnClientClick="return confirm('¿Quitar este programa del centro?');">
+                                        CssClass="btn btn-danger btn-sm" OnClientClick="return confirmarEliminacion(this, 'Desea quitar este programa del centro?');">
                                         <i class="fas fa-trash"></i> Quitar
                                     </asp:LinkButton>
                                 </ItemTemplate>
@@ -56,7 +57,8 @@
                 </div>
                 <div class="card-body">
                     <asp:GridView ID="gvDisponibles" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered table-sm"
-                        DataKeyNames="idPrograma" OnRowCommand="gvDisponibles_RowCommand">
+                        DataKeyNames="idPrograma" OnRowCommand="gvDisponibles_RowCommand"
+                        AllowPaging="True" PageSize="15" OnPageIndexChanging="gvDisponibles_PageIndexChanging">
                         <Columns>
                             <asp:BoundField DataField="codigoPrograma" HeaderText="Código" />
                             <asp:BoundField DataField="nombre" HeaderText="Nombre" />

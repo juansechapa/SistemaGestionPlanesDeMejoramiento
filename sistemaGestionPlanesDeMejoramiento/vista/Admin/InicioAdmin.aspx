@@ -3,8 +3,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <div class="alert alert-info">
+        <i class="fas fa-circle-info"></i>
+        <div>
         <h3>Bienvenido, <asp:Label ID="lblBienvenida" runat="server" Text=""></asp:Label></h3>
         <p>Panel de control del administrador. Desde aquí puedes gestionar centros, instructores, aprendices y planes.</p>
+        </div>
     </div>
     <!-- Agregar metodos y demas aqui -->
 </asp:Content>

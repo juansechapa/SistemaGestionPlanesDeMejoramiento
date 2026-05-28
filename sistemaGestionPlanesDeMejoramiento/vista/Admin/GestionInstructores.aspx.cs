@@ -1,6 +1,7 @@
 ﻿using sistemaGestionPlanesDeMejoramiento.logica;
 using sistemaGestionPlanesDeMejoramiento.Modelo;
 using System;
+using System.Collections.Generic;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -9,6 +10,7 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
     public partial class GestionInstructores : System.Web.UI.Page
     {
         private ClInstructorL instructorL = new ClInstructorL();
+        private ClInstructorFichaL instructorFichaL = new ClInstructorFichaL();   // nueva instancia
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,6 +30,12 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
         {
             gvInstructores.DataSource = instructorL.ListarInstructores();
             gvInstructores.DataBind();
+        }
+
+        protected void gvInstructores_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvInstructores.PageIndex = e.NewPageIndex;
+            CargarGrid();
         }
 
         protected void btnNuevo_Click(object sender, EventArgs e)
@@ -138,6 +146,52 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
                 {
                     MostrarAlerta("Error: " + ex.Message, "danger");
                 }
+            }
+            else if (e.CommandName == "AsignarFichas")   // NUEVO
+            {
+                hfIdInstructorFichas.Value = idInstructor.ToString();
+
+                // Cargar las fichas activas
+                var fichas = instructorFichaL.ListarFichasActivas();
+                cblFichas.DataSource = fichas;
+                cblFichas.DataTextField = "codigoFicha";
+                cblFichas.DataValueField = "idFicha";
+                cblFichas.DataBind();
+
+                // Marcar las ya asignadas
+                List<int> asignadas = instructorFichaL.ListarFichasPorInstructor(idInstructor);
+                foreach (ListItem item in cblFichas.Items)
+                {
+                    item.Selected = asignadas.Contains(Convert.ToInt32(item.Value));
+                }
+
+                ScriptManager.RegisterStartupScript(this, GetType(), "showFichas", "mostrarModalFichas();", true);
+            }
+        }
+
+        protected void btnGuardarFichas_Click(object sender, EventArgs e)
+        {
+            int idInstructor = Convert.ToInt32(hfIdInstructorFichas.Value);
+            List<int> seleccionados = new List<int>();
+            foreach (ListItem item in cblFichas.Items)
+            {
+                if (item.Selected)
+                    seleccionados.Add(Convert.ToInt32(item.Value));
+            }
+
+            try
+            {
+                if (instructorFichaL.ActualizarFichasPorInstructor(idInstructor, seleccionados))
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "hideFichas", "ocultarModalFichas();", true);
+                    MostrarAlerta("Fichas asignadas correctamente.", "success");
+                }
+                else
+                    MostrarAlerta("Error al guardar la asignación.", "danger");
+            }
+            catch (Exception ex)
+            {
+                MostrarAlerta("Error: " + ex.Message, "danger");
             }
         }
 

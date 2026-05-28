@@ -1,5 +1,4 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,7 +42,51 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelDataReader, Version=3.8.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.8.0\lib\net462\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.8.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.8.0\lib\net462\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.Cryptography, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.Cryptography.10.0.8\lib\net462\Microsoft.Bcl.Cryptography.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\lib\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IO.RecyclableMemoryStream, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IO.RecyclableMemoryStream.3.0.1\lib\netstandard2.0\Microsoft.IO.RecyclableMemoryStream.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.5.0.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Formats.Asn1, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Formats.Asn1.10.0.8\lib\net462\System.Formats.Asn1.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.Cryptography.Xml, Version=10.0.0.8, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Xml.10.0.8\lib\net462\System.Security.Cryptography.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encoding.CodePages, Version=10.0.0.8, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.10.0.8\lib\net462\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -62,41 +105,57 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="vista\Admin\GestionAdministradores.aspx" />
     <Content Include="vista\Admin\GestionAprendices.aspx" />
     <Content Include="vista\Admin\GestionCentroPrograma.aspx" />
     <Content Include="vista\Admin\GestionCentros.aspx" />
     <Content Include="vista\Admin\GestionFichas.aspx" />
     <Content Include="vista\Admin\GestionInstructores.aspx" />
+    <Content Include="vista\Admin\GestionPlanes.aspx" />
     <Content Include="vista\Admin\GestionProgramas.aspx" />
     <Content Include="vista\Admin\InicioAdmin.aspx" />
     <Content Include="vista\Aprendiz\InicioAprendiz.aspx" />
+    <Content Include="vista\Aprendiz\MisPlanes.aspx" />
+    <Content Include="vista\Aprendiz\VerEvidencias.aspx" />
+    <Content Include="vista\CSS\appEstilos.css" />
     <Content Include="vista\CSS\loginEstilos.css" />
+    <Content Include="vista\JS\appListados.js" />
+    <Content Include="vista\Instructor\Evaluaciones.aspx" />
     <Content Include="vista\Instructor\InicioInstructor.aspx" />
+    <Content Include="vista\Instructor\MisAprendices.aspx" />
+    <Content Include="vista\Instructor\MisPlanes.aspx" />
     <Content Include="vista\Login.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="datos\ClAdministradorD.cs" />
     <Compile Include="datos\ClAprendizD.cs" />
     <Compile Include="datos\ClCentroFormacionD.cs" />
     <Compile Include="datos\ClCentroProgramaD.cs" />
     <Compile Include="datos\ClConexion.cs" />
+    <Compile Include="datos\ClCompetenciaD.cs" />
+    <Compile Include="datos\ClEvidenciaD.cs" />
     <Compile Include="datos\ClFichaD.cs" />
     <Compile Include="datos\ClInstructorD.cs" />
+    <Compile Include="datos\ClInstructorFichaD.cs" />
     <Compile Include="datos\ClPlanMejoramientoD.cs" />
     <Compile Include="datos\ClProgramaD.cs" />
+    <Compile Include="datos\ClResultadoAprendizajeD.cs" />
     <Compile Include="datos\ClUsuarioD.cs" />
+    <Compile Include="logica\ClAdministradorL.cs" />
     <Compile Include="logica\ClAprendizL.cs" />
     <Compile Include="logica\ClCentroFormacionL.cs" />
     <Compile Include="logica\ClCentroProgramaL.cs" />
+    <Compile Include="logica\ClCompetenciaL.cs" />
+    <Compile Include="logica\ClEvidenciaL.cs" />
     <Compile Include="logica\ClFichaL.cs" />
+    <Compile Include="logica\ClInstructorFichaL.cs" />
     <Compile Include="logica\ClInstructorL.cs" />
+    <Compile Include="logica\ClPlanMejoramientoL.cs" />
     <Compile Include="logica\ClProgramaL.cs" />
+    <Compile Include="logica\ClResultadoAprendizajeL.cs" />
     <Compile Include="logica\ClUsuarioL.cs" />
+    <Compile Include="modelo\ClAdministrador.cs" />
     <Compile Include="modelo\ClAprendiz.cs" />
     <Compile Include="modelo\ClCentroFormacion.cs" />
     <Compile Include="modelo\ClCentroPrograma.cs" />
@@ -121,6 +180,13 @@
     </Compile>
     <Compile Include="vista\Admin\AdminMaster.Master.designer.cs">
       <DependentUpon>AdminMaster.Master</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Admin\GestionAdministradores.aspx.cs">
+      <DependentUpon>GestionAdministradores.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\GestionAdministradores.aspx.designer.cs">
+      <DependentUpon>GestionAdministradores.aspx</DependentUpon>
     </Compile>
     <Compile Include="vista\Admin\GestionAprendices.aspx.cs">
       <DependentUpon>GestionAprendices.aspx</DependentUpon>
@@ -157,6 +223,13 @@
     <Compile Include="vista\Admin\GestionInstructores.aspx.designer.cs">
       <DependentUpon>GestionInstructores.aspx</DependentUpon>
     </Compile>
+    <Compile Include="vista\Admin\GestionPlanes.aspx.cs">
+      <DependentUpon>GestionPlanes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Admin\GestionPlanes.aspx.designer.cs">
+      <DependentUpon>GestionPlanes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="vista\Admin\GestionProgramas.aspx.cs">
       <DependentUpon>GestionProgramas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -185,6 +258,27 @@
     <Compile Include="vista\Aprendiz\InicioAprendiz.aspx.designer.cs">
       <DependentUpon>InicioAprendiz.aspx</DependentUpon>
     </Compile>
+    <Compile Include="vista\Aprendiz\MisPlanes.aspx.cs">
+      <DependentUpon>MisPlanes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Aprendiz\MisPlanes.aspx.designer.cs">
+      <DependentUpon>MisPlanes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Aprendiz\VerEvidencias.aspx.cs">
+      <DependentUpon>VerEvidencias.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Aprendiz\VerEvidencias.aspx.designer.cs">
+      <DependentUpon>VerEvidencias.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Instructor\Evaluaciones.aspx.cs">
+      <DependentUpon>Evaluaciones.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Instructor\Evaluaciones.aspx.designer.cs">
+      <DependentUpon>Evaluaciones.aspx</DependentUpon>
+    </Compile>
     <Compile Include="vista\Instructor\InicioInstructor.aspx.cs">
       <DependentUpon>InicioInstructor.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -199,6 +293,20 @@
     <Compile Include="vista\Instructor\InstructorMaster.Master.designer.cs">
       <DependentUpon>InstructorMaster.Master</DependentUpon>
     </Compile>
+    <Compile Include="vista\Instructor\MisAprendices.aspx.cs">
+      <DependentUpon>MisAprendices.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Instructor\MisAprendices.aspx.designer.cs">
+      <DependentUpon>MisAprendices.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="vista\Instructor\MisPlanes.aspx.cs">
+      <DependentUpon>MisPlanes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="vista\Instructor\MisPlanes.aspx.designer.cs">
+      <DependentUpon>MisPlanes.aspx</DependentUpon>
+    </Compile>
     <Compile Include="vista\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -208,6 +316,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="evidencias\.gitkeep" />
     <None Include="packages.config" />
     <Content Include="vista\Admin\AdminMaster.Master" />
     <Content Include="vista\Aprendiz\AprendizMaster.Master" />
@@ -245,12 +354,15 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.4.1.0\build\net472\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.targets'))" />
+    <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets'))" />
   </Target>
+  <Import Project="..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.2\build\net471\System.ValueTuple.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

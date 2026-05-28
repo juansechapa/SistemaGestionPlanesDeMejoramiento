@@ -30,6 +30,12 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             gvCentros.DataBind();
         }
 
+        protected void gvCentros_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvCentros.PageIndex = e.NewPageIndex;
+            CargarGrid();
+        }
+
         protected void btnNuevo_Click(object sender, EventArgs e)
         {
             hfIdCentro.Value = "0";

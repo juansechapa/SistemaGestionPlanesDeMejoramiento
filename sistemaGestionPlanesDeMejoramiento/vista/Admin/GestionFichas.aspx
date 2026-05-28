@@ -12,7 +12,8 @@
     <div class="card shadow">
         <div class="card-body">
             <asp:GridView ID="gvFichas" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered table-hover"
-                DataKeyNames="idFicha" OnRowCommand="gvFichas_RowCommand">
+                DataKeyNames="idFicha" OnRowCommand="gvFichas_RowCommand"
+                AllowPaging="True" PageSize="15" OnPageIndexChanging="gvFichas_PageIndexChanging">
                 <columns>
                     <asp:BoundField DataField="idFicha" HeaderText="ID" />
                     <asp:BoundField DataField="codigoFicha" HeaderText="Código Ficha" />
@@ -22,13 +23,19 @@
                     <asp:BoundField DataField="nivel" HeaderText="Nivel" />
                     <asp:BoundField DataField="duracion" HeaderText="Duración" />
                     <asp:BoundField DataField="estado" HeaderText="Estado" />
-                    <asp:TemplateField HeaderText="Acciones">
+                    <asp:TemplateField HeaderText="Acciones" ItemStyle-CssClass="text-center text-nowrap">
                         <itemtemplate>
-                            <asp:ImageButton ID="btnEditar" runat="server" CommandName="Editar" CommandArgument='<%# Eval("idFicha") %>'
-                                ImageUrl="https://img.icons8.com/ios-glyphs/20/000000/edit--v1.png" ToolTip="Editar" />
-                            <asp:ImageButton ID="btnEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("idFicha") %>'
-                                ImageUrl="https://img.icons8.com/ios-glyphs/20/000000/trash.png" ToolTip="Eliminar"
-                                OnClientClick="return confirm('¿Eliminar esta ficha?');" />
+                            <div class="d-flex justify-content-center gap-2">
+                                <asp:LinkButton ID="btnEditar" runat="server" CommandName="Editar" CommandArgument='<%# Eval("idFicha") %>'
+                                    CssClass="btn-action btn-action-edit" ToolTip="Editar" CausesValidation="false">
+                                    <i class="fas fa-pen"></i>
+                                </asp:LinkButton>
+                                <asp:LinkButton ID="btnEliminar" runat="server" CommandName="Eliminar" CommandArgument='<%# Eval("idFicha") %>'
+                                    CssClass="btn-action btn-action-delete" ToolTip="Eliminar" CausesValidation="false"
+                                    OnClientClick="return confirmarEliminacion(this, 'Desea eliminar esta ficha?');">
+                                    <i class="fas fa-trash-alt"></i>
+                                </asp:LinkButton>
+                            </div>
                         </itemtemplate>
                     </asp:TemplateField>
                 </columns>

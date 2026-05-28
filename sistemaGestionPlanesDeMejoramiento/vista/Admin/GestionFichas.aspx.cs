@@ -36,6 +36,12 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             gvFichas.DataBind();
         }
 
+        protected void gvFichas_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvFichas.PageIndex = e.NewPageIndex;
+            CargarGrid();
+        }
+
         protected void btnNuevo_Click(object sender, EventArgs e)
         {
             hfIdFicha.Value = "0";

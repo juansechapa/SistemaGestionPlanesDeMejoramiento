@@ -5,50 +5,152 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin - Planes de Mejoramiento</title>
+    <title>Admin · Planes de Mejoramiento</title>
+
+    <!-- Bootstrap 5.3 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <!-- Estilos personalizados (claro) -->
+    <link href="../../vista/CSS/appEstilos.css" rel="stylesheet" />
+
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
     <form id="form1" runat="server">
-        <!-- Navbar superior -->
-        <nav class="navbar navbar-dark bg-dark px-3">
+
+        <!-- ═══ BARRA SUPERIOR (clara) ═══ -->
+        <nav class="navbar navbar-expand px-3">
             <div class="container-fluid">
-                <span class="navbar-brand"><i class="fas fa-chalkboard-user"></i>Planes de Mejoramiento - Administrador</span>
-                <div class="d-flex">
-                    <span class="text-white me-3"><i class="fas fa-user"></i>
-                        <asp:Label ID="lblUsuario" runat="server"></asp:Label></span>
-                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar Sesión" CssClass="btn btn-outline-light btn-sm" OnClick="btnCerrarSesion_Click" />
+                <span class="navbar-brand">
+                    <i class="fas fa-chalkboard-user me-2"></i>Planes de Mejoramiento · Administrador
+                </span>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="text-muted small me-2">
+                        <i class="fas fa-user-circle me-1"></i>
+                        <asp:Label ID="lblUsuario" runat="server"></asp:Label>
+                    </span>
+                    <asp:Button ID="btnCambiarAcceso" runat="server" Text="Cambiar Acceso"
+                        CssClass="btn btn-outline-secondary btn-sm" CausesValidation="false"
+                        OnClick="btnCambiarAcceso_Click" />
+                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar Sesión"
+                        CssClass="btn btn-outline-secondary btn-sm" OnClick="btnCerrarSesion_Click" />
                 </div>
             </div>
         </nav>
 
         <div class="container-fluid">
             <div class="row">
-                <!-- Sidebar -->
-                <div class="col-md-2 col-lg-2 bg-light vh-100 p-3">
-                    <h6 class="text-muted text-uppercase fw-bold">Menú Administrador</h6>
-                    <ul class="nav flex-column">
-                        <li xlass="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/InicioAdmin.aspx") %>"><i class="fas fa-tachometer-alt"></i>DashBoard</a></li>
-                        <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionCentros.aspx") %>"><i class="fas fa-building"></i>Centros</a></li>
-                        <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionInstructores.aspx") %>"><i class="fas fa-chalkboard-teacher"></i>Instructores</a></li>
-                        <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionAprendices.aspx") %>"><i class="fas fa-users"></i>Aprendices</a></li>
-                        <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionProgramas.aspx") %>"><i class="fas fa-graduation-cap"></i>Programas</a></li>
-                        <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionPlanes.aspx") %>"><i class="fas fa-clipboard-list"></i>Planes</a></li>
-                        <li class="nav-item mb-2"><asp:HyperLink runat="server" NavigateUrl="~/vista/Admin/GestionCentroPrograma.aspx" CssClass="nav-link"><i class="fas fa-link"></i> Asignar Programas a Centros</asp:HyperLink></li>
-                        <li class="nav-item mb-2"><a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionFichas.aspx") %>"><i class="fas fa-clipboard-list"></i>Fichas</a></li>
 
+                <!-- ═══ SIDEBAR ═══ -->
+                <div class="col-md-2 col-lg-2 sidebar p-3">
+                    <h6 class="sidebar-heading">Menú Principal</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/InicioAdmin.aspx") %>">
+                                <i class="fas fa-tachometer-alt"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionAdministradores.aspx") %>">
+                                <i class="fas fa-user-shield"></i>Administradores
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionCentros.aspx") %>">
+                                <i class="fas fa-building"></i>Centros
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionInstructores.aspx") %>">
+                                <i class="fas fa-chalkboard-teacher"></i>Instructores
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionAprendices.aspx") %>">
+                                <i class="fas fa-users"></i>Aprendices
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionProgramas.aspx") %>">
+                                <i class="fas fa-graduation-cap"></i>Programas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionPlanes.aspx") %>">
+                                <i class="fas fa-clipboard-list"></i>Planes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <asp:HyperLink runat="server" NavigateUrl="~/vista/Admin/GestionCentroPrograma.aspx" CssClass="nav-link">
+                                <i class="fas fa-link"></i> Asignar Programas
+                            </asp:HyperLink>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="<%= ResolveUrl("~/vista/Admin/GestionFichas.aspx") %>">
+                                <i class="fas fa-clipboard-list"></i>Fichas
+                            </a>
+                        </li>
                     </ul>
-                    <!-- Contenido principal -->
                 </div>
+
+                <!-- ═══ CONTENIDO PRINCIPAL ═══ -->
                 <div class="col-md-10 col-lg-10 p-4">
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
                 </div>
             </div>
         </div>
+
+        <!-- ═══ MODAL CAMBIAR ACCESO (rediseñado claro) ═══ -->
+        <div class="modal fade" id="modalAcceso" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fas fa-lock me-2 text-primary"></i>Cambiar acceso
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Usuario *</label>
+                            <asp:TextBox ID="txtUsuarioAcceso" runat="server" CssClass="form-control" placeholder="Nombre de usuario" />
+                            <asp:RequiredFieldValidator ID="rfvUsuarioAcceso" runat="server" ControlToValidate="txtUsuarioAcceso"
+                                ErrorMessage="El usuario es obligatorio." CssClass="text-danger small mt-1 d-block" ValidationGroup="Acceso" />
+                        </div>
+                        <div class="mb-3">
+                            <label>Nueva contraseña</label>
+                            <asp:TextBox ID="txtClaveAcceso" runat="server" CssClass="form-control" TextMode="Password" placeholder="••••••••" />
+                            <small class="text-muted">Dejar vacía para conservar la actual.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label>Confirmar contraseña</label>
+                            <asp:TextBox ID="txtConfirmarClaveAcceso" runat="server" CssClass="form-control" TextMode="Password" placeholder="••••••••" />
+                        </div>
+                        <asp:Label ID="lblAccesoMensaje" runat="server" CssClass="d-block mt-2" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <asp:Button ID="btnGuardarAcceso" runat="server" Text="Guardar acceso"
+                            CssClass="btn btn-primary" ValidationGroup="Acceso" OnClick="btnGuardarAcceso_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="<%= ResolveUrl("~/vista/JS/appListados.js") %>"></script>
         <asp:ContentPlaceHolder ID="scripts" runat="server"></asp:ContentPlaceHolder>
+        <script>
+            function mostrarModalAcceso() {
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('modalAcceso')).show();
+            }
+            function ocultarModalAcceso() {
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('modalAcceso')).hide();
+            }
+        </script>
     </form>
 </body>
 </html>

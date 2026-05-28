@@ -131,7 +131,33 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             finally { cn.MtCerrarConexion(); }
             return lista;
         }
-
-
+       
+        public ClCentroProgramaInfo ObtenerInfoCentroPrograma(int idCentroPrograma)
+        {
+            ClCentroProgramaInfo info = null;
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    @"SELECT c.nombre AS Centro, p.nombre AS Programa
+              FROM centroPrograma cp
+              INNER JOIN centroFormacion c ON cp.idCentro = c.idCentro
+              INNER JOIN programa p ON cp.idPrograma = p.idPrograma
+              WHERE cp.idCentroPrograma = @idCentroPrograma",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idCentroPrograma", idCentroPrograma);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
+                {
+                    info = new ClCentroProgramaInfo
+                    {
+                        Centro = dr["Centro"].ToString(),
+                        Programa = dr["Programa"].ToString()
+                    };
+                }
+                dr.Close();
+            }
+            finally { cn.MtCerrarConexion(); }
+            return info;
+        }
     }
 }

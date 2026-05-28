@@ -121,5 +121,31 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGuardar;
+
+        protected global::System.Web.UI.WebControls.HiddenField hfIdProgramaCompetencias;
+
+        protected global::System.Web.UI.WebControls.HiddenField hfIdCompetenciaSeleccionada;
+
+        protected global::System.Web.UI.WebControls.Literal litProgramaCompetencias;
+
+        protected global::System.Web.UI.WebControls.Label lblCompetenciasMensaje;
+
+        protected global::System.Web.UI.WebControls.GridView gvCompetencias;
+
+        protected global::System.Web.UI.WebControls.TextBox txtNombreCompetencia;
+
+        protected global::System.Web.UI.WebControls.TextBox txtDescripcionCompetencia;
+
+        protected global::System.Web.UI.WebControls.Button btnAgregarCompetencia;
+
+        protected global::System.Web.UI.WebControls.Label lblCompetenciaSeleccionada;
+
+        protected global::System.Web.UI.WebControls.GridView gvResultados;
+
+        protected global::System.Web.UI.WebControls.TextBox txtCodigoResultado;
+
+        protected global::System.Web.UI.WebControls.TextBox txtDescripcionResultado;
+
+        protected global::System.Web.UI.WebControls.Button btnAgregarResultado;
     }
 }
