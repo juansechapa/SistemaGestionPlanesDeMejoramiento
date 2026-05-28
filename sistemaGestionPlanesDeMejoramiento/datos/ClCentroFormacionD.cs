@@ -124,7 +124,13 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             bool respuesta = false;
             try
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM centroFormacion WHERE idCentro = @idCentro", cn.MtAbrirConexion());
+                SqlConnection conexion = cn.MtAbrirConexion();
+                SqlCommand cmdAsignaciones = new SqlCommand("SELECT COUNT(1) FROM centroPrograma WHERE idCentro = @idCentro", conexion);
+                cmdAsignaciones.Parameters.AddWithValue("@idCentro", idCentro);
+                if (Convert.ToInt32(cmdAsignaciones.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar el centro porque tiene programas asignados.");
+
+                SqlCommand cmd = new SqlCommand("DELETE FROM centroFormacion WHERE idCentro = @idCentro", conexion);
                 cmd.Parameters.AddWithValue("@idCentro", idCentro);
                 respuesta = cmd.ExecuteNonQuery() > 0;
             }

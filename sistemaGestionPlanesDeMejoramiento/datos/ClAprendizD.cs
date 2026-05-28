@@ -164,7 +164,13 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             bool respuesta = false;
             try
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM aprendiz WHERE idAprendiz = @idAprendiz", cn.MtAbrirConexion());
+                SqlConnection conexion = cn.MtAbrirConexion();
+                SqlCommand cmdPlanes = new SqlCommand("SELECT COUNT(1) FROM planMejoramiento WHERE idAprendiz = @idAprendiz", conexion);
+                cmdPlanes.Parameters.AddWithValue("@idAprendiz", idAprendiz);
+                if (Convert.ToInt32(cmdPlanes.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar el aprendiz porque tiene planes de mejoramiento asignados.");
+
+                SqlCommand cmd = new SqlCommand("DELETE FROM aprendiz WHERE idAprendiz = @idAprendiz", conexion);
                 cmd.Parameters.AddWithValue("@idAprendiz", idAprendiz);
                 respuesta = cmd.ExecuteNonQuery() > 0;
             }

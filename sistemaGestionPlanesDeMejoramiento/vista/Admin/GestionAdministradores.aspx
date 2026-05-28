@@ -13,7 +13,7 @@
             CssClass="btn btn-primary" CausesValidation="false" OnClick="btnNuevo_Click" />
     </div>
 
-    <!-- Mensaje del sistema (éxito/error) con estilo de alerta claro -->
+    <!-- Mensaje del sistema (éxito/error) -->
     <asp:Label ID="lblMensaje" runat="server" CssClass="d-block mb-3" />
 
     <div class="card">
@@ -33,7 +33,7 @@
                             ItemStyle-CssClass="text-center font-monospace opacity-75" />
                         <asp:BoundField DataField="numeroDocumento" HeaderText="Documento" />
                         <asp:BoundField DataField="correo" HeaderText="Email" />
-                        <asp:BoundField DataField="telefono" HeaderText="Teléfono" ItemStyle-CssClass="text-nowrap" />
+                        <asp:BoundField DataField="telefono" HeaderText="Telefono" ItemStyle-CssClass="text-nowrap" />
 
                         <asp:TemplateField HeaderText="Acciones" ItemStyle-CssClass="text-center text-nowrap">
                             <ItemTemplate>
@@ -69,7 +69,7 @@
 
     <asp:HiddenField ID="hfIdAdministrador" runat="server" />
 
-    <!-- ═══ MODAL CREAR / EDITAR ═══ -->
+    <!-- MODAL CREAR / EDITAR  -->
     <div class="modal fade" id="modalAdministrador" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -105,18 +105,18 @@
                             </asp:DropDownList>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label>Número documento</label>
-                            <asp:TextBox ID="txtNumeroDocumento" runat="server" CssClass="form-control" placeholder="Número de identificación" />
+                            <label>Numero documento</label>
+                            <asp:TextBox ID="txtNumeroDocumento" runat="server" CssClass="form-control" placeholder="Numero de identificacion" />
                             <asp:RequiredFieldValidator ID="rfvNumeroDocumento" runat="server" ControlToValidate="txtNumeroDocumento"
                                 ErrorMessage="Campo requerido" CssClass="text-danger small mt-1 d-block" ValidationGroup="Administrador" />
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label>Teléfono</label>
-                            <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control" placeholder="Celular (Opcional)" />
+                            <label>Telefono</label>
+                            <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control" placeholder="(Opcional)" />
                         </div>
                     </div>
                     <div class="mb-4">
-                        <label>Correo electrónico</label>
+                        <label>Correo electronico</label>
                         <asp:TextBox ID="txtCorreo" runat="server" CssClass="form-control" TextMode="Email" placeholder="nombre@ejemplo.com" />
                         <asp:RequiredFieldValidator ID="rfvCorreo" runat="server" ControlToValidate="txtCorreo"
                             ErrorMessage="Campo requerido" CssClass="text-danger small mt-1 d-block" ValidationGroup="Administrador" />
@@ -127,12 +127,12 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label>Usuario de Sistema</label>
-                                <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="Nombre de usuario único" />
+                                <asp:TextBox ID="txtUsername" runat="server" CssClass="form-control" placeholder="Nombre de usuario unico" />
                                 <asp:RequiredFieldValidator ID="rfvUsername" runat="server" ControlToValidate="txtUsername"
                                     ErrorMessage="Campo requerido" CssClass="text-danger small mt-1 d-block" ValidationGroup="Administrador" />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>Contraseña Provisional</label>
+                                <label>Clave Provisional</label>
                                 <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" TextMode="Password" placeholder="••••••••" />
                                 <asp:RequiredFieldValidator ID="rfvPassword" runat="server" ControlToValidate="txtPassword"
                                     ErrorMessage="Campo requerido" CssClass="text-danger small mt-1 d-block" ValidationGroup="Administrador" />
@@ -142,8 +142,8 @@
                         <div class="alert alert-info d-flex align-items-start mt-2">
                             <i class="fas fa-shield-alt me-3 mt-1 fs-5"></i>
                             <div>
-                                <strong>Seguridad:</strong> Las credenciales se procesan con funciones criptográficas seguras de un solo sentido. 
-                                Cada administrador deberá cambiar su contraseña desde su perfil privado al iniciar sesión.
+                                <strong>Seguridad:</strong> Las credenciales se procesan con funciones criptograficas seguras de un solo sentido. 
+                                Cada administrador debera cambiar su clave desde su perfil privado al iniciar sesion.
                             </div>
                         </div>
                     </div>

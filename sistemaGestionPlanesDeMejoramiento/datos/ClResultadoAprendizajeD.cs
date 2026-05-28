@@ -96,7 +96,14 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM resultadosAprendizaje WHERE idResultado = @idResultado", cn.MtAbrirConexion());
+                SqlConnection conexion = cn.MtAbrirConexion();
+
+                SqlCommand cmdPlanes = new SqlCommand("SELECT COUNT(1) FROM planResultado WHERE idResultado = @idResultado", conexion);
+                cmdPlanes.Parameters.AddWithValue("@idResultado", idResultado);
+                if (Convert.ToInt32(cmdPlanes.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar el resultado porque esta asociado a uno o mas planes.");
+
+                SqlCommand cmd = new SqlCommand("DELETE FROM resultadosAprendizaje WHERE idResultado = @idResultado", conexion);
                 cmd.Parameters.AddWithValue("@idResultado", idResultado);
                 return cmd.ExecuteNonQuery() > 0;
             }

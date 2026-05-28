@@ -115,7 +115,19 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             bool respuesta = false;
             try
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM programa WHERE idPrograma = @idPrograma", cn.MtAbrirConexion());
+                SqlConnection conexion = cn.MtAbrirConexion();
+
+                SqlCommand cmdCentros = new SqlCommand("SELECT COUNT(1) FROM centroPrograma WHERE idPrograma = @idPrograma", conexion);
+                cmdCentros.Parameters.AddWithValue("@idPrograma", idPrograma);
+                if (Convert.ToInt32(cmdCentros.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar el programa porque esta asignado a uno o mas centros.");
+
+                SqlCommand cmdCompetencias = new SqlCommand("SELECT COUNT(1) FROM competencias WHERE idPrograma = @idPrograma", conexion);
+                cmdCompetencias.Parameters.AddWithValue("@idPrograma", idPrograma);
+                if (Convert.ToInt32(cmdCompetencias.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar el programa porque tiene competencias asociadas.");
+
+                SqlCommand cmd = new SqlCommand("DELETE FROM programa WHERE idPrograma = @idPrograma", conexion);
                 cmd.Parameters.AddWithValue("@idPrograma", idPrograma);
                 respuesta = cmd.ExecuteNonQuery() > 0;
             }

@@ -109,7 +109,19 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             bool respuesta = false;
             try
             {
-                SqlCommand cmd = new SqlCommand("DELETE FROM ficha WHERE idFicha = @idFicha", cn.MtAbrirConexion());
+                SqlConnection conexion = cn.MtAbrirConexion();
+
+                SqlCommand cmdAprendices = new SqlCommand("SELECT COUNT(1) FROM aprendiz WHERE idFicha = @idFicha", conexion);
+                cmdAprendices.Parameters.AddWithValue("@idFicha", idFicha);
+                if (Convert.ToInt32(cmdAprendices.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar la ficha porque tiene aprendices asignados.");
+
+                SqlCommand cmdInstructores = new SqlCommand("SELECT COUNT(1) FROM instructorFicha WHERE idFicha = @idFicha", conexion);
+                cmdInstructores.Parameters.AddWithValue("@idFicha", idFicha);
+                if (Convert.ToInt32(cmdInstructores.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar la ficha porque tiene instructores asignados.");
+
+                SqlCommand cmd = new SqlCommand("DELETE FROM ficha WHERE idFicha = @idFicha", conexion);
                 cmd.Parameters.AddWithValue("@idFicha", idFicha);
                 respuesta = cmd.ExecuteNonQuery() > 0;
             }

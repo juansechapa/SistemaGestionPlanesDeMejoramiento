@@ -73,6 +73,93 @@
         document.body.appendChild(wrapper.firstElementChild);
     }
 
+    function crearContenedorAlertas() {
+        if (document.getElementById("systemAlertContainer")) {
+            return document.getElementById("systemAlertContainer");
+        }
+
+        var contenedor = document.createElement("div");
+        contenedor.id = "systemAlertContainer";
+        contenedor.className = "system-alert-container";
+        contenedor.setAttribute("aria-live", "polite");
+        document.body.appendChild(contenedor);
+        return contenedor;
+    }
+
+    function obtenerIconoAlerta(tipo) {
+        var iconos = {
+            success: "fa-check-circle",
+            danger: "fa-circle-exclamation",
+            warning: "fa-triangle-exclamation",
+            info: "fa-circle-info"
+        };
+
+        return iconos[tipo] || iconos.info;
+    }
+
+    function inferirTipoAlerta(mensaje) {
+        var texto = normalizar(mensaje);
+
+        if (texto.indexOf("correctamente") >= 0 || texto.indexOf("exito") >= 0 || texto.indexOf("guardad") >= 0 || texto.indexOf("cread") >= 0 || texto.indexOf("subid") >= 0 || texto.indexOf("actualizad") >= 0) {
+            return "success";
+        }
+
+        if (texto.indexOf("error") >= 0 || texto.indexOf("no se pudo") >= 0 || texto.indexOf("incorrect") >= 0 || texto.indexOf("inval") >= 0 || texto.indexOf("fall") >= 0) {
+            return "danger";
+        }
+
+        if (texto.indexOf("elimin") >= 0 || texto.indexOf("cancelad") >= 0 || texto.indexOf("supera") >= 0) {
+            return "warning";
+        }
+
+        return "info";
+    }
+
+    window.mostrarAlertaSistema = function (mensaje, tipo) {
+        if (!mensaje) {
+            return;
+        }
+
+        var tipoNormalizado = ["success", "danger", "warning", "info"].indexOf(tipo) >= 0 ? tipo : "info";
+        var contenedor = crearContenedorAlertas();
+        var alerta = document.createElement("div");
+        alerta.className = "system-toast system-toast-" + tipoNormalizado;
+        alerta.setAttribute("role", "alert");
+
+        var icono = document.createElement("i");
+        icono.className = "fas " + obtenerIconoAlerta(tipoNormalizado);
+        icono.setAttribute("aria-hidden", "true");
+
+        var texto = document.createElement("span");
+        texto.textContent = mensaje;
+
+        var cerrar = document.createElement("button");
+        cerrar.type = "button";
+        cerrar.className = "system-toast-close";
+        cerrar.setAttribute("aria-label", "Cerrar alerta");
+        cerrar.innerHTML = "&times;";
+
+        cerrar.addEventListener("click", function () {
+            alerta.remove();
+        });
+
+        alerta.appendChild(icono);
+        alerta.appendChild(texto);
+        alerta.appendChild(cerrar);
+        contenedor.appendChild(alerta);
+
+        window.setTimeout(function () {
+            alerta.classList.add("is-leaving");
+            window.setTimeout(function () {
+                alerta.remove();
+            }, 220);
+        }, 4500);
+    };
+
+    window.alert = function (mensaje) {
+        window.mostrarAlertaSistema(mensaje, inferirTipoAlerta(mensaje));
+    };
+
     window.confirmarEliminacion = function (control, mensaje) {
         if (control.dataset.confirmado === "true") {
             control.dataset.confirmado = "false";
@@ -98,5 +185,6 @@
     document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll(".table").forEach(crearBuscador);
         crearModalConfirmacion();
+        crearContenedorAlertas();
     });
 })();

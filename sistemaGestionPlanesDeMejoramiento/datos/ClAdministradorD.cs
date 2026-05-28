@@ -43,7 +43,15 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             {
                 trans?.Rollback();
                 if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    if (ex.Message.Contains("UQ_admin_numeroDocumento"))
+                        throw new Exception("Ya existe un administrador con ese numero de documento.");
+                    if (ex.Message.Contains("UQ_admin_correo"))
+                        throw new Exception("Ya existe un administrador con ese correo.");
+                    if (ex.Message.Contains("UQ_Username"))
+                        throw new Exception("El nombre de usuario ya existe. Elija otro.");
                     throw new Exception("Ya existe un administrador con esos datos o ese usuario.");
+                }
                 throw;
             }
             catch
@@ -133,7 +141,13 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             catch (SqlException ex)
             {
                 if (ex.Number == 2627 || ex.Number == 2601)
+                {
+                    if (ex.Message.Contains("UQ_admin_numeroDocumento"))
+                        throw new Exception("Ya existe otro administrador con ese numero de documento.");
+                    if (ex.Message.Contains("UQ_admin_correo"))
+                        throw new Exception("Ya existe otro administrador con ese correo.");
                     throw new Exception("Ya existe otro administrador con esos datos.");
+                }
                 throw;
             }
             finally

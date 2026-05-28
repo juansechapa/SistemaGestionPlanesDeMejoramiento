@@ -146,12 +146,20 @@ body {
 
 .message-error {
     display: block;
-    min-height: 20px;
     margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border-left: 4px solid var(--error);
+    background: #fef2f2;
+    box-shadow: 0 2px 8px rgba(185, 28, 28, 0.08);
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--error);
-    text-align: center;
+    text-align: left;
+}
+
+.message-error:empty {
+    display: none;
 }
 
 .footer-text {

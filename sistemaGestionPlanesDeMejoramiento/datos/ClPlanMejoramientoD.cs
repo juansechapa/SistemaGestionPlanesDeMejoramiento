@@ -245,11 +245,19 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 conexion = cn.MtAbrirConexion();
                 trans = conexion.BeginTransaction();
 
+                SqlCommand cmdEvidencias = new SqlCommand("SELECT COUNT(1) FROM evidencias WHERE idPlanMejoramiento = @idPlanMejoramiento", conexion, trans);
+                cmdEvidencias.Parameters.AddWithValue("@idPlanMejoramiento", idPlanMejoramiento);
+                if (Convert.ToInt32(cmdEvidencias.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar el plan porque tiene evidencias subidas.");
+
+                SqlCommand cmdEvaluacion = new SqlCommand("SELECT COUNT(1) FROM evaluacionPlan WHERE idPlanMejoramiento = @idPlanMejoramiento", conexion, trans);
+                cmdEvaluacion.Parameters.AddWithValue("@idPlanMejoramiento", idPlanMejoramiento);
+                if (Convert.ToInt32(cmdEvaluacion.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar el plan porque ya fue evaluado.");
+
                 string[] dependencias =
                 {
-                    "DELETE FROM evaluacionPlan WHERE idPlanMejoramiento = @idPlanMejoramiento",
-                    "DELETE FROM planResultado WHERE idPlanMejoramiento = @idPlanMejoramiento",
-                    "DELETE FROM evidencias WHERE idPlanMejoramiento = @idPlanMejoramiento"
+                    "DELETE FROM planResultado WHERE idPlanMejoramiento = @idPlanMejoramiento"
                 };
 
                 foreach (string sqlDependencia in dependencias)

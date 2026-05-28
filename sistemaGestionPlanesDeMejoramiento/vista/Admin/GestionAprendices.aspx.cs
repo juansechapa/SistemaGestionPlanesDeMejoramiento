@@ -186,12 +186,20 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             }
             else if (e.CommandName == "Eliminar")
             {
-                if (aprendizL.EliminarAprendiz(id))
+                try
                 {
-                    CargarGrid();
-                    MostrarAlerta("Eliminado correctamente.", "warning");
+                    if (aprendizL.EliminarAprendiz(id))
+                    {
+                        CargarGrid();
+                        MostrarAlerta("Eliminado correctamente.", "warning");
+                    }
+                    else
+                        MostrarAlerta("No se pudo eliminar.", "danger");
                 }
-                else MostrarAlerta("No se pudo eliminar.", "danger");
+                catch (Exception ex)
+                {
+                    MostrarAlerta("Error: " + ex.Message, "danger");
+                }
             }
         }
 

@@ -54,28 +54,18 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
 
         public bool Eliminar(int idCompetencias)
         {
-            SqlConnection conexion = null;
-            SqlTransaction trans = null;
             try
             {
-                conexion = cn.MtAbrirConexion();
-                trans = conexion.BeginTransaction();
+                SqlConnection conexion = cn.MtAbrirConexion();
 
-                SqlCommand cmdResultados = new SqlCommand("DELETE FROM resultadosAprendizaje WHERE idCompetencias = @id", conexion, trans);
+                SqlCommand cmdResultados = new SqlCommand("SELECT COUNT(1) FROM resultadosAprendizaje WHERE idCompetencias = @id", conexion);
                 cmdResultados.Parameters.AddWithValue("@id", idCompetencias);
-                cmdResultados.ExecuteNonQuery();
+                if (Convert.ToInt32(cmdResultados.ExecuteScalar()) > 0)
+                    throw new InvalidOperationException("No se puede eliminar la competencia porque tiene resultados de aprendizaje asociados.");
 
-                SqlCommand cmdCompetencia = new SqlCommand("DELETE FROM competencias WHERE idCompetencias = @id", conexion, trans);
+                SqlCommand cmdCompetencia = new SqlCommand("DELETE FROM competencias WHERE idCompetencias = @id", conexion);
                 cmdCompetencia.Parameters.AddWithValue("@id", idCompetencias);
-                bool eliminado = cmdCompetencia.ExecuteNonQuery() > 0;
-
-                trans.Commit();
-                return eliminado;
-            }
-            catch
-            {
-                trans?.Rollback();
-                throw;
+                return cmdCompetencia.ExecuteNonQuery() > 0;
             }
             finally { cn.MtCerrarConexion(); }
         }

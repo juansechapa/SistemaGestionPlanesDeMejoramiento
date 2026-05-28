@@ -96,8 +96,25 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             bool respuesta = false;
             try
             {
+                SqlConnection conexion = cn.MtAbrirConexion();
+
+                SqlCommand cmdCentroPrograma = new SqlCommand(
+                    "SELECT idCentroPrograma FROM centroPrograma WHERE idCentro = @idCentro AND idPrograma = @idPrograma",
+                    conexion);
+                cmdCentroPrograma.Parameters.AddWithValue("@idCentro", idCentro);
+                cmdCentroPrograma.Parameters.AddWithValue("@idPrograma", idPrograma);
+                object idCentroProgramaObj = cmdCentroPrograma.ExecuteScalar();
+
+                if (idCentroProgramaObj != null && idCentroProgramaObj != DBNull.Value)
+                {
+                    SqlCommand cmdFichas = new SqlCommand("SELECT COUNT(1) FROM ficha WHERE idCentroPrograma = @idCentroPrograma", conexion);
+                    cmdFichas.Parameters.AddWithValue("@idCentroPrograma", Convert.ToInt32(idCentroProgramaObj));
+                    if (Convert.ToInt32(cmdFichas.ExecuteScalar()) > 0)
+                        throw new InvalidOperationException("No se puede quitar el programa del centro porque ya tiene fichas asociadas.");
+                }
+
                 SqlCommand cmd = new SqlCommand(
-                    "DELETE FROM centroPrograma WHERE idCentro = @idCentro AND idPrograma = @idPrograma", cn.MtAbrirConexion());
+                    "DELETE FROM centroPrograma WHERE idCentro = @idCentro AND idPrograma = @idPrograma", conexion);
                 cmd.Parameters.AddWithValue("@idCentro", idCentro);
                 cmd.Parameters.AddWithValue("@idPrograma", idPrograma);
                 respuesta = cmd.ExecuteNonQuery() > 0;
