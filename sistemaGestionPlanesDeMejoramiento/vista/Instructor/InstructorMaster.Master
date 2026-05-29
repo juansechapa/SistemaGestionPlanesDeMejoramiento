@@ -25,7 +25,7 @@
                         <asp:Label ID="lblUsuario" runat="server"></asp:Label>
                     </span>
                     <asp:Button ID="btnCambiarAcceso" runat="server" Text="Cambiar Acceso" CssClass="btn btn-outline-secondary btn-sm" CausesValidation="false" OnClick="btnCambiarAcceso_Click" />
-                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar Sesión" CssClass="btn btn-outline-secondary btn-sm" OnClick="btnCerrarSesion_Click" />
+                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar Sesion" CssClass="btn btn-outline-secondary btn-sm" OnClick="btnCerrarSesion_Click" />
                 </div>
             </div>
         </nav>
@@ -61,12 +61,12 @@
                             <asp:RequiredFieldValidator ID="rfvUsuarioAcceso" runat="server" ControlToValidate="txtUsuarioAcceso" ErrorMessage="El usuario es obligatorio." CssClass="text-danger small mt-1 d-block" ValidationGroup="Acceso" />
                         </div>
                         <div class="mb-3">
-                            <label>Nueva contraseña</label>
+                            <label>Nueva contrasena</label>
                             <asp:TextBox ID="txtClaveAcceso" runat="server" CssClass="form-control" TextMode="Password" placeholder="••••••••" />
-                            <small class="text-muted">Dejar vacía para conservar la actual.</small>
+                            <small class="text-muted">Dejar vacia para conservar la actual.</small>
                         </div>
                         <div class="mb-3">
-                            <label>Confirmar contraseña</label>
+                            <label>Confirmar contrasena</label>
                             <asp:TextBox ID="txtConfirmarClaveAcceso" runat="server" CssClass="form-control" TextMode="Password" placeholder="••••••••" />
                         </div>
                         <asp:Label ID="lblAccesoMensaje" runat="server" CssClass="d-block mt-2" />

@@ -10,7 +10,7 @@ namespace sistemaGestionPlanesDeMejoramiento.Datos
     {
         private SqlTransaction _transaccion;
 
-        SqlConnection oConex = new SqlConnection("Data Source=DESKTOP-9VCLAG1\\SQLEXPRESS;Initial Catalog=SistemaGestionPlanes;Integrated Security=True;");
+        SqlConnection oConex = new SqlConnection("Data Source=PlanMejora.mssql.somee.com;Initial Catalog=PlanMejora;User ID=EPSILON_SQLLogin_1;Password=aqynstjxvu;TrustServerCertificate=True;");
 
         public SqlConnection MtAbrirConexion()
         {
@@ -23,22 +23,6 @@ namespace sistemaGestionPlanesDeMejoramiento.Datos
         }
 
 
-        public SqlTransaction IniciarTransaccion()
-        {
-            _transaccion = oConex.BeginTransaction();
-            return _transaccion;
-        }
-
-        public void ConfirmarTransaccion()
-        {
-            _transaccion?.Commit();
-            _transaccion = null;
-        }
-
-        public void RevertirTransaccion()
-        {
-            _transaccion?.Rollback();
-            _transaccion = null;
-        }
+     
     }
 }

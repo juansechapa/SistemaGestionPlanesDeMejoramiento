@@ -23,7 +23,7 @@
                     <asp:BoundField DataField="TipoPlan" HeaderText="Tipo" />
                     <asp:BoundField DataField="actividadesPropuestas" HeaderText="Actividades" />
                     <asp:BoundField DataField="observaciones" HeaderText="Observaciones" />
-                    <asp:BoundField DataField="fechaAsignacion" HeaderText="Asignación" DataFormatString="{0:dd/MM/yyyy}" />
+                    <asp:BoundField DataField="fechaAsignacion" HeaderText="Asignacion" DataFormatString="{0:dd/MM/yyyy}" />
                     <asp:BoundField DataField="fechaEntrega" HeaderText="Entrega" DataFormatString="{0:dd/MM/yyyy}" />
                     <asp:TemplateField HeaderText="Estado">
                         <ItemTemplate>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3">
-                                <label>Fecha asignación *</label>
+                                <label>Fecha asignacion *</label>
                                 <asp:TextBox ID="txtFechaAsignacion" runat="server" CssClass="form-control" TextMode="Date" />
                                 <asp:RequiredFieldValidator ID="rfvFechaAsignacion" runat="server" ControlToValidate="txtFechaAsignacion" ErrorMessage="Obligatoria." CssClass="text-danger" ValidationGroup="Plan" />
                             </div>
