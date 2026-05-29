@@ -3,10 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <div class="d-flex justify-content-between mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
         <h2><i class="fas fa-users"></i>Aprendices</h2>
-        <asp:Button ID="btnNuevo" runat="server" Text="+ Nuevo" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnNuevo_Click" />
-        <asp:Button ID="btnCargaMasiva" runat="server" Text="Carga Masiva" CssClass="btn btn-info ms-2" CausesValidation="false" OnClick="btnCargaMasiva_Click" />
+        <div class="d-flex gap-2">
+            <asp:Button ID="btnNuevo" runat="server" Text="+ Nuevo" CssClass="btn btn-primary" CausesValidation="false" OnClick="btnNuevo_Click" />
+            <asp:Button ID="btnCargaMasiva" runat="server" Text="Carga Masiva" CssClass="btn btn-info" CausesValidation="false" OnClick="btnCargaMasiva_Click" />
+        </div>
     </div>
     <div class="card shadow">
         <div class="card-body">

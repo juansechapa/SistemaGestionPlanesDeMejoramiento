@@ -28,6 +28,12 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
             return administradorD.ObtenerAdministradorPorId(idAdministrador);
         }
 
+        public ClAdministrador ObtenerAdministradorPorIdUsuario(int idUsuario)
+        {
+            if (idUsuario <= 0) throw new ArgumentException("Usuario inválido.");
+            return administradorD.ObtenerAdministradorPorIdUsuario(idUsuario);
+        }
+
         public bool ActualizarAdministrador(ClAdministrador administrador)
         {
             if (administrador.idAmin <= 0) throw new ArgumentException("Administrador inválido.");

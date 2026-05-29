@@ -17,7 +17,7 @@
         <nav class="navbar navbar-expand px-3">
             <div class="container-fluid">
                 <span class="navbar-brand">
-                    <i class="fas fa-user-graduate me-2"></i>Planes de Mejoramiento · Aprendiz
+                    <i class="fas fa-user-graduate me-2"></i>Planes de Mejoramiento - Aprendiz
                 </span>
                 <div class="d-flex align-items-center gap-2">
                     <span class="text-muted small me-2">
@@ -25,7 +25,7 @@
                         <asp:Label ID="lblUsuario" runat="server"></asp:Label>
                     </span>
                     <asp:Button ID="btnCambiarAcceso" runat="server" Text="Cambiar Acceso" CssClass="btn btn-outline-secondary btn-sm" CausesValidation="false" OnClick="btnCambiarAcceso_Click" />
-                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar Sesión" CssClass="btn btn-outline-secondary btn-sm" OnClick="btnCerrarSesion_Click" />
+                    <asp:Button ID="btnCerrarSesion" runat="server" Text="Cerrar Sesion" CssClass="btn btn-outline-secondary btn-sm" OnClick="btnCerrarSesion_Click" />
                 </div>
             </div>
         </nav>
@@ -33,7 +33,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-2 col-lg-2 sidebar p-3">
-                    <h6 class="sidebar-heading">Menú Aprendiz</h6>
+                    <h6 class="sidebar-heading">Menu Aprendiz</h6>
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/vista/Aprendiz/InicioAprendiz.aspx") %>"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/vista/Aprendiz/MisPlanes.aspx") %>"><i class="fas fa-clipboard-list"></i>Mis Planes</a></li>

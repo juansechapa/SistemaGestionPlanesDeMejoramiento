@@ -46,6 +46,12 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
             return aprendizD.ObtenerAprendizPorIdUsuario(idUsuario);
         }
 
+        public int ContarAprendicesPorFicha(int idFicha)
+        {
+            if (idFicha <= 0) throw new ArgumentException("Ficha inválida.");
+            return aprendizD.ContarAprendicesPorFicha(idFicha);
+        }
+
         public bool EliminarAprendiz(int idAprendiz)
         {
             if (idAprendiz <= 0) throw new ArgumentException("ID inválido");

@@ -79,6 +79,7 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             ddlFicha.DataValueField = "idFicha";
             ddlFicha.DataBind();
             ddlFicha.Items.Insert(0, new ListItem("-- Seleccione ficha --", ""));
+            MarcarFichasLlenas(ddlFicha);
         }
 
         private void CargarFichasCarga()
@@ -90,6 +91,7 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             ddlFichaCarga.DataValueField = "idFicha";
             ddlFichaCarga.DataBind();
             ddlFichaCarga.Items.Insert(0, new ListItem("-- Seleccione ficha --", ""));
+            MarcarFichasLlenas(ddlFichaCarga);
         }
 
         protected void btnNuevo_Click(object sender, EventArgs e)
@@ -347,7 +349,25 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             }
 
             AprendicesCargaValidos = aprendicesValidos;
+            ValidarCupoCargaMasiva();
             MostrarResultadoCarga();
+        }
+
+        private void ValidarCupoCargaMasiva()
+        {
+            if (string.IsNullOrEmpty(ddlFichaCarga.SelectedValue) || aprendicesValidos.Count == 0)
+                return;
+
+            int idFicha = Convert.ToInt32(ddlFichaCarga.SelectedValue);
+            int asignados = aprendizL.ContarAprendicesPorFicha(idFicha);
+            int cuposDisponibles = Math.Max(0, 30 - asignados);
+
+            if (aprendicesValidos.Count > cuposDisponibles)
+            {
+                AgregarError(0, "idFicha", $"La ficha seleccionada tiene {asignados} aprendices. Solo quedan {cuposDisponibles} cupos disponibles.");
+                aprendicesValidos.Clear();
+                AprendicesCargaValidos = new List<AprendizTemp>();
+            }
         }
 
         private void MostrarResultadoCarga()
@@ -378,6 +398,14 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
             }
 
             int idFicha = Convert.ToInt32(ddlFichaCarga.SelectedValue);
+            int asignados = aprendizL.ContarAprendicesPorFicha(idFicha);
+            if (asignados + validos.Count > 30)
+            {
+                MostrarAlerta($"No se puede insertar la carga. La ficha tiene {asignados} aprendices y solo admite 30.", "danger");
+                ScriptManager.RegisterStartupScript(this, GetType(), "showCargaCupo", "mostrarModalCargaMasiva();", true);
+                return;
+            }
+
             int insertados = 0;
             int errores = 0;
 
@@ -460,6 +488,26 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Admin
         private bool ExisteDocumento(string documento)
         {
             return aprendizL.ListarAprendices().Any(a => a.numeroDocumento == documento);
+        }
+
+        private void MarcarFichasLlenas(DropDownList ddl)
+        {
+            foreach (ListItem item in ddl.Items)
+            {
+                if (string.IsNullOrWhiteSpace(item.Value))
+                    continue;
+
+                int idFicha;
+                if (!int.TryParse(item.Value, out idFicha))
+                    continue;
+
+                int total = aprendizL.ContarAprendicesPorFicha(idFicha);
+                if (total >= 30)
+                {
+                    item.Text = item.Text + " (cupo lleno)";
+                    item.Enabled = false;
+                }
+            }
         }
 
         private void MostrarAlerta(string msg, string tipo)

@@ -139,6 +139,37 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             return respuesta;
         }
 
+        public ClInstructor ObtenerInstructorPorIdUsuario(int idUsuario)
+        {
+            ClInstructor instructor = null;
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT idInstructor, nombres, apellidos, tipoDocumento, numeroDocumento, correo, telefono, especialidad, idUsuario FROM instructor WHERE idUsuario = @idUsuario",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
+                {
+                    instructor = new ClInstructor
+                    {
+                        idInstructor = Convert.ToInt32(dr["idInstructor"]),
+                        nombres = dr["nombres"].ToString(),
+                        apellidos = dr["apellidos"].ToString(),
+                        tipoDocumento = dr["tipoDocumento"].ToString(),
+                        numeroDocumento = dr["numeroDocumento"].ToString(),
+                        correo = dr["correo"].ToString(),
+                        telefono = dr["telefono"] != DBNull.Value ? dr["telefono"].ToString() : null,
+                        especialidad = dr["especialidad"] != DBNull.Value ? dr["especialidad"].ToString() : null,
+                        idUsuario = Convert.ToInt32(dr["idUsuario"])
+                    };
+                }
+                dr.Close();
+            }
+            finally { cn.MtCerrarConexion(); }
+            return instructor;
+        }
+
         public bool EliminarInstructor(int idInstructor)
         {
             bool respuesta = false;

@@ -118,6 +118,32 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             return administrador;
         }
 
+        public ClAdministrador ObtenerAdministradorPorIdUsuario(int idUsuario)
+        {
+            ClAdministrador administrador = null;
+            try
+            {
+                SqlConnection conexion = cn.MtAbrirConexion();
+                string columnaId = ObtenerColumnaId(conexion);
+                SqlCommand cmd = new SqlCommand(
+                    $@"SELECT {columnaId} AS idAmin, nombres, apellidos, tipoDocumento, numeroDocumento, telefono, correo, idUsuario
+                       FROM administrador
+                       WHERE idUsuario = @idUsuario",
+                    conexion);
+                cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read())
+                    administrador = MapearAdministrador(dr);
+                dr.Close();
+            }
+            finally
+            {
+                cn.MtCerrarConexion();
+            }
+            return administrador;
+        }
+
         public bool ActualizarAdministrador(ClAdministrador administrador)
         {
             try

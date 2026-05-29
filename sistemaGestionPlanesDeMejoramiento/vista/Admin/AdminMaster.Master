@@ -25,7 +25,7 @@
         <nav class="navbar navbar-expand px-3">
             <div class="container-fluid">
                 <span class="navbar-brand">
-                    <i class="fas fa-chalkboard-user me-2"></i>Planes de Mejoramiento · Administrador
+                    <i class="fas fa-chalkboard-user me-2"></i>Planes de Mejoramiento - Administrador
                 </span>
                 <div class="d-flex align-items-center gap-2">
                     <span class="text-muted small me-2">

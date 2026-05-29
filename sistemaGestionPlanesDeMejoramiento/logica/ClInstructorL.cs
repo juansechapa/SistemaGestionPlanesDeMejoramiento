@@ -30,6 +30,12 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
             return instructorD.ActualizarInstructor(instructor);
         }
 
+        public ClInstructor ObtenerInstructorPorIdUsuario(int idUsuario)
+        {
+            if (idUsuario <= 0) throw new ArgumentException("Usuario inválido.");
+            return instructorD.ObtenerInstructorPorIdUsuario(idUsuario);
+        }
+
         public bool EliminarInstructor(int idInstructor)
         {
             if (idInstructor <= 0) throw new ArgumentException("ID inválido");

@@ -20,6 +20,8 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 conexion = cn.MtAbrirConexion();
                 trans = conexion.BeginTransaction();
 
+                ValidarCupoFicha(conexion, trans, aprendiz.idFicha, null);
+
                 string sqlUser = "INSERT INTO usuarios (username, password, idRol) VALUES (@u, @p, 3); SELECT SCOPE_IDENTITY();";
                 SqlCommand cmdUser = new SqlCommand(sqlUser, conexion, trans);
                 cmdUser.Parameters.AddWithValue("@u", username);
@@ -77,11 +79,14 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             bool respuesta = false;
             try
             {
+                SqlConnection conexion = cn.MtAbrirConexion();
+                ValidarCupoFicha(conexion, null, aprendiz.idFicha, aprendiz.idAprendiz);
+
                 SqlCommand cmd = new SqlCommand(
                     "UPDATE aprendiz SET nombres=@nombres, apellidos=@apellidos, tipoDocumento=@tipoDocumento, " +
                     "numeroDocumento=@numeroDocumento, correo=@correo, telefono=@telefono, fechaNacimiento=@fechaNacimiento, idFicha=@idFicha " +
                     "WHERE idAprendiz=@idAprendiz",
-                    cn.MtAbrirConexion());
+                    conexion);
 
                 cmd.Parameters.AddWithValue("@idAprendiz", aprendiz.idAprendiz);
                 cmd.Parameters.AddWithValue("@nombres", aprendiz.nombres);
@@ -263,6 +268,35 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             }
             finally { cn.MtCerrarConexion(); }
             return aprendiz;
+        }
+
+        public int ContarAprendicesPorFicha(int idFicha)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT COUNT(1) FROM aprendiz WHERE idFicha = @idFicha",
+                    cn.MtAbrirConexion());
+                cmd.Parameters.AddWithValue("@idFicha", idFicha);
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+            finally { cn.MtCerrarConexion(); }
+        }
+
+        private void ValidarCupoFicha(SqlConnection conexion, SqlTransaction trans, int idFicha, int? idAprendizExcluir)
+        {
+            SqlCommand cmd = new SqlCommand(
+                @"SELECT COUNT(1)
+                  FROM aprendiz
+                  WHERE idFicha = @idFicha
+                    AND (@idAprendizExcluir IS NULL OR idAprendiz <> @idAprendizExcluir)",
+                conexion,
+                trans);
+            cmd.Parameters.AddWithValue("@idFicha", idFicha);
+            cmd.Parameters.AddWithValue("@idAprendizExcluir", idAprendizExcluir.HasValue ? (object)idAprendizExcluir.Value : DBNull.Value);
+
+            if (Convert.ToInt32(cmd.ExecuteScalar()) >= 30)
+                throw new InvalidOperationException("No se puede asignar el aprendiz porque la ficha ya tiene 30 aprendices.");
         }
 
         public List<ClResultado> ObtenerResultadosPendientes(int idAprendiz)

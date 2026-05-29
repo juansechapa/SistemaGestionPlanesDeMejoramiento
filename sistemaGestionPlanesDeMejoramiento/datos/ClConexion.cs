@@ -21,8 +21,5 @@ namespace sistemaGestionPlanesDeMejoramiento.Datos
         {
             oConex.Close();
         }
-
-
-     
     }
 }

@@ -17,7 +17,7 @@
         <nav class="navbar navbar-expand px-3">
             <div class="container-fluid">
                 <span class="navbar-brand">
-                    <i class="fas fa-chalkboard-teacher me-2"></i>Planes de Mejoramiento · Instructor
+                    <i class="fas fa-chalkboard-teacher me-2"></i>Planes de Mejoramiento - Instructor
                 </span>
                 <div class="d-flex align-items-center gap-2">
                     <span class="text-muted small me-2">
