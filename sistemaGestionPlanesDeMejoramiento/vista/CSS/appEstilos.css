@@ -59,6 +59,26 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.app-shell {
+    max-width: 100%;
+}
+
+.app-layout {
+    min-height: calc(100vh - 58px);
+}
+
+.app-content {
+    min-width: 0;
+}
+
 /* ═══ SCROLLBAR ELEGANTE ═══ */
 ::-webkit-scrollbar {
     width: 6px;
@@ -123,6 +143,16 @@ body {
     min-height: calc(100vh - 58px);
     padding: 1.75rem 1rem;
     box-shadow: var(--shadow-xs);
+}
+
+@media (min-width: 992px) {
+    .sidebar {
+        position: sticky;
+        top: 58px;
+        align-self: flex-start;
+        max-height: calc(100vh - 58px);
+        overflow-y: auto;
+    }
 }
 
 .sidebar-heading {
@@ -258,6 +288,16 @@ body {
 
 .card-body {
     padding: 1.75rem;
+    min-width: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.card-body:has(> .table),
+.card-body:has(> div > .table),
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
     .card-body.p-0 {
@@ -299,6 +339,14 @@ body {
     border-spacing: 0;
     width: 100%;
     font-size: 0.9rem;
+    min-width: 720px;
+}
+
+.table caption {
+    caption-side: top;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    padding: 0 0 0.75rem;
 }
 
     .table thead th {
@@ -398,6 +446,9 @@ body {
     align-items: center;
     gap: 0.4rem;
     font-size: 0.9rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
 }
 
 .btn-primary {
@@ -874,6 +925,7 @@ span.d-block:empty {
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
     overflow: hidden;
+    max-height: calc(100vh - 1.5rem);
 }
 
 .modal.fade .modal-dialog {
@@ -915,6 +967,7 @@ span.d-block:empty {
 .modal-body {
     padding: 1.75rem;
     background: #fff;
+    overflow-y: auto;
 }
 
 .modal-footer {
@@ -1022,11 +1075,71 @@ span.d-block:empty {
 
 /* ═══ RESPONSIVE ═══ */
 @media (max-width: 992px) {
+    .navbar {
+        padding: 0.75rem 1rem;
+    }
+
+    .navbar .container-fluid {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .navbar .navbar-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        white-space: normal;
+        line-height: 1.25;
+        font-size: 1rem;
+    }
+
+    .navbar .d-flex {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 0.5rem !important;
+    }
+
+    .navbar .text-muted.small {
+        width: 100%;
+        margin-right: 0 !important;
+    }
+
     .sidebar {
         min-height: auto;
         border-right: none;
         border-bottom: 1px solid var(--sidebar-border);
         padding: 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+
+    .sidebar .nav {
+        flex-direction: row !important;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        gap: 0.4rem;
+        padding-bottom: 0.25rem;
+        scrollbar-width: thin;
+    }
+
+    .sidebar .nav-item {
+        flex: 0 0 auto;
+    }
+
+    .sidebar .nav-link {
+        white-space: nowrap;
+        margin-bottom: 0;
+        padding: 0.65rem 0.85rem;
+        background: #fff;
+        border: 1px solid var(--border-color);
+        box-shadow: var(--shadow-xs);
+    }
+
+    .sidebar .nav-link:hover {
+        transform: none;
     }
 
     .page-header {
@@ -1037,6 +1150,149 @@ span.d-block:empty {
     .table-responsive {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
+    }
+
+    .table {
+        min-width: 760px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        background: #f8fafc;
+    }
+
+    .container-fluid > .row > [class*="col-md-10"],
+    .container-fluid > .row > [class*="col-lg-10"],
+    .app-content {
+        padding: 1rem !important;
+    }
+
+    .col-md-10 > .d-flex.justify-content-between,
+    .col-md-10 > .d-flex.justify-content-between.align-items-center,
+    .col-lg-10 > .d-flex.justify-content-between,
+    .col-lg-10 > .d-flex.justify-content-between.align-items-center {
+        padding: 0.75rem 0 1rem;
+        align-items: flex-start !important;
+        flex-direction: column;
+    }
+
+    .col-md-10 > .d-flex.justify-content-between h2,
+    .col-lg-10 > .d-flex.justify-content-between h2,
+    .page-header h2 {
+        font-size: 1.35rem;
+    }
+
+    .card {
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-xs);
+    }
+
+    .card-body,
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-header,
+    .modal-footer {
+        padding: 1rem;
+    }
+
+    .modal-dialog {
+        margin: 0.75rem;
+    }
+
+    .modal-content {
+        max-height: calc(100vh - 1.5rem);
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.65rem 1rem !important;
+    }
+
+    .d-flex.gap-2,
+    .d-flex.gap-3 {
+        flex-wrap: wrap;
+    }
+
+    .table .btn,
+    .table .btn-action {
+        width: auto;
+    }
+
+    .table .btn-action {
+        width: 42px;
+        height: 42px;
+        font-size: 1rem;
+    }
+
+    .table td,
+    .table thead th {
+        padding: 0.75rem;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 44px;
+    }
+
+    .row > [class*="col-"] {
+        min-width: 0;
+    }
+
+    .system-alert-container {
+        top: 0.75rem;
+        right: 0.75rem;
+        width: calc(100vw - 1.5rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: 0.65rem 0.75rem !important;
+    }
+
+    .navbar .navbar-brand {
+        font-size: 0.95rem;
+    }
+
+    .sidebar-heading {
+        margin-bottom: 0.75rem;
+        padding-left: 0.25rem;
+    }
+
+    .navbar .btn {
+        width: auto;
+        flex: 1 1 auto;
+        min-width: 120px;
+        font-size: 0.78rem;
+        padding: 0.55rem 0.7rem !important;
+    }
+
+    .table {
+        font-size: 0.82rem;
+        min-width: 680px;
+    }
+
+    .card-body {
+        padding: 0.85rem;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+    }
+
+    .modal-footer .btn,
+    .modal-footer input[type="submit"],
+    .modal-footer input[type="button"] {
+        width: 100%;
+    }
+
+    .pagination a,
+    .pagination span {
+        padding: 0.5rem 0.75rem;
     }
 }
 

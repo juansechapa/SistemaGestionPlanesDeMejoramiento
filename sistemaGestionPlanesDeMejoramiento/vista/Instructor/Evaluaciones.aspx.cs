@@ -211,9 +211,27 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Instructor
                 {
                     CargarPlan(idPlan);
                     bool aprobado = producto == "Aprueba" && conocimiento == "Aprueba" && desempeno == "Aprueba";
-                    string alerta = aprobado ? "El aprendiz aprobó el plan." : "El aprendiz no aprobó el plan.";
+                    bool esPlanComite = EsPlanComite(plan.TipoPlan);
+                    string alerta;
+
+                    if (aprobado)
+                    {
+                        alerta = "El aprendiz aprobo el plan.";
+                    }
+                    else if (esPlanComite)
+                    {
+                        ClAprendiz aprendiz = aprendizL.ListarAprendices().FirstOrDefault(a => a.idAprendiz == plan.idAprendiz);
+                        alerta = aprendiz != null && EsEstadoCancelado(aprendiz.estado)
+                            ? "El aprendiz no aprobo el plan por comite y fue cancelado."
+                            : "El aprendiz no aprobo el plan por comite. Verifique que el trigger trg_CancelarAprendiz este activo.";
+                    }
+                    else
+                    {
+                        alerta = "El aprendiz no aprobo el plan.";
+                    }
+
                     lblMensaje.CssClass = "alert alert-success d-block mt-3";
-                    lblMensaje.Text = alerta + " Evaluación guardada correctamente.";
+                    lblMensaje.Text = alerta + " Evaluacion guardada correctamente.";
                     ScriptManager.RegisterStartupScript(this, GetType(), "alertEvaluacionOk", "alert('" + alerta + "');", true);
                 }
                 else
@@ -229,6 +247,18 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Instructor
                 lblMensaje.Text = ex.Message;
                 ScriptManager.RegisterStartupScript(this, GetType(), "alertEvaluacionError", "alert('No se pudo guardar la evaluación.');", true);
             }
+        }
+
+        private bool EsPlanComite(string tipoPlan)
+        {
+            return !string.IsNullOrWhiteSpace(tipoPlan)
+                && tipoPlan.Trim().StartsWith("Com", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private bool EsEstadoCancelado(string estado)
+        {
+            string valor = estado == null ? "" : estado.Trim().ToLowerInvariant();
+            return valor == "cancelado" || valor == "canselado" || valor == "cancelada" || valor == "canselada";
         }
     }
 }

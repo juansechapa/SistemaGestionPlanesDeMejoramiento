@@ -133,8 +133,11 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
 
                 SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read())
-                    administrador = MapearAdministrador(dr);
+                if (dr.Read()) 
+                {
+                    administrador = MapearAdministrador(dr); 
+                }
+
                 dr.Close();
             }
             finally

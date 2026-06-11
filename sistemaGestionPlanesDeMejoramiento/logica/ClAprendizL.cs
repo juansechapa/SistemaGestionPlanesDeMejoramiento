@@ -2,6 +2,7 @@
 using sistemaGestionPlanesDeMejoramiento.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace sistemaGestionPlanesDeMejoramiento.logica
 {
@@ -29,7 +30,7 @@ namespace sistemaGestionPlanesDeMejoramiento.logica
             return aprendizD.ActualizarAprendiz(aprendiz);
         }
 
-        public System.Data.DataTable ListarAprendicesPorInstructor(int idInstructor)
+        public DataTable ListarAprendicesPorInstructor(int idInstructor)
         {
             return aprendizD.ListarAprendicesPorInstructor(idInstructor);
         }

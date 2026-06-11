@@ -15,6 +15,15 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Instructor
     {
 
         /// <summary>
+        /// Control ddlFiltroFicha.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlFiltroFicha;
+
+        /// <summary>
         /// Control gvAprendices.
         /// </summary>
         /// <remarks>

@@ -2,6 +2,7 @@
 using sistemaGestionPlanesDeMejoramiento.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -22,14 +23,53 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Instructor
             }
 
             if (!IsPostBack)
+            {
+                CargarFiltroFichas();
                 CargarAprendices();
+            }
         }
 
         private void CargarAprendices()
         {
             int idInstructor = Convert.ToInt32(Session["idInstructor"]);
-            gvAprendices.DataSource = aprendizL.ListarAprendicesPorInstructor(idInstructor);
+            DataTable aprendices = aprendizL.ListarAprendicesPorInstructor(idInstructor);
+            string fichaSeleccionada = ddlFiltroFicha.SelectedValue;
+
+            if (!string.IsNullOrWhiteSpace(fichaSeleccionada))
+            {
+                DataView vista = aprendices.DefaultView;
+                vista.RowFilter = "codigoFicha = '" + fichaSeleccionada.Replace("'", "''") + "'";
+                gvAprendices.DataSource = vista;
+            }
+            else
+            {
+                gvAprendices.DataSource = aprendices;
+            }
+
             gvAprendices.DataBind();
+        }
+
+        private void CargarFiltroFichas()
+        {
+            int idInstructor = Convert.ToInt32(Session["idInstructor"]);
+            DataTable aprendices = aprendizL.ListarAprendicesPorInstructor(idInstructor);
+
+            ddlFiltroFicha.Items.Clear();
+            ddlFiltroFicha.Items.Add(new ListItem("Todas las fichas", ""));
+
+            if (aprendices.Rows.Count == 0)
+                return;
+
+            DataTable fichas = aprendices.DefaultView.ToTable(true, "codigoFicha");
+            DataView vistaFichas = fichas.DefaultView;
+            vistaFichas.Sort = "codigoFicha ASC";
+
+            foreach (DataRowView fila in vistaFichas)
+            {
+                string codigoFicha = fila["codigoFicha"].ToString();
+                if (!string.IsNullOrWhiteSpace(codigoFicha))
+                    ddlFiltroFicha.Items.Add(new ListItem(codigoFicha, codigoFicha));
+            }
         }
 
         protected void gvAprendices_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -68,6 +108,12 @@ namespace sistemaGestionPlanesDeMejoramiento.vista.Instructor
         protected void gvAprendices_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvAprendices.PageIndex = e.NewPageIndex;
+            CargarAprendices();
+        }
+
+        protected void ddlFiltroFicha_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gvAprendices.PageIndex = 0;
             CargarAprendices();
         }
 

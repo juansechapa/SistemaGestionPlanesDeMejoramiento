@@ -8,6 +8,14 @@
     </div>
     <div class="card shadow">
         <div class="card-body">
+            <div class="row g-2 align-items-end mb-3">
+                <div class="col-12 col-md-4 col-lg-3">
+                    <label for="<%= ddlFiltroFicha.ClientID %>" class="form-label">Filtrar por ficha</label>
+                    <asp:DropDownList ID="ddlFiltroFicha" runat="server" CssClass="form-select"
+                        AutoPostBack="true" OnSelectedIndexChanged="ddlFiltroFicha_SelectedIndexChanged" />
+                </div>
+            </div>
+
             <asp:GridView ID="gvAprendices" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered table-hover"
                 DataKeyNames="idAprendiz" OnRowCommand="gvAprendices_RowCommand"
                 AllowPaging="True" PageSize="15" OnPageIndexChanging="gvAprendices_PageIndexChanging">

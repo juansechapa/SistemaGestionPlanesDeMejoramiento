@@ -37,6 +37,10 @@
 
                 <asp:Button ID="btnIngresar" runat="server" Text="Iniciar sesión" CssClass="btn-primary" OnClick="btnIngresar_Click" />
 
+                <div class="login-links">
+                    <a href="<%= ResolveUrl("~/vista/RecuperarClave.aspx") %>">¿Olvidaste tu contraseña?</a>
+                </div>
+
                 <asp:Label ID="lblMensaje" runat="server" CssClass="message-error"></asp:Label>
             </div>
 

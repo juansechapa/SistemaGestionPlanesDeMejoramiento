@@ -24,6 +24,7 @@
                     <asp:BoundField DataField="correo" HeaderText="Correo" />
                     <asp:BoundField DataField="telefono" HeaderText="Teléfono" />
                     <asp:BoundField DataField="fechaNacimiento" HeaderText="Fecha Nac." DataFormatString="{0:dd/MM/yyyy}" />
+                    <asp:BoundField DataField="estado" HeaderText="Estado" />
                     <asp:TemplateField HeaderText="Acciones" ItemStyle-CssClass="text-center text-nowrap">
                         <ItemTemplate>
                             <div class="d-flex justify-content-center gap-2">

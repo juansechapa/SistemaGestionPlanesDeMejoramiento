@@ -144,6 +144,23 @@ body {
         transform: translateY(0);
     }
 
+.login-links {
+    margin-top: 14px;
+    text-align: center;
+}
+
+.login-links a {
+    color: var(--green-600);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-links a:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
 .message-error {
     display: block;
     margin-top: 16px;
@@ -176,5 +193,13 @@ body {
 
     .login-card {
         padding: 28px 20px 24px;
+    }
+
+    .login-header h1 {
+        font-size: 1.25rem;
+    }
+
+    .subtitle {
+        font-size: 0.82rem;
     }
 }

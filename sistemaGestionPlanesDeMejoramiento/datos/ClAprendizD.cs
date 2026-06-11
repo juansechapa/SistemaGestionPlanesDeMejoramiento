@@ -2,6 +2,7 @@
 using sistemaGestionPlanesDeMejoramiento.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace sistemaGestionPlanesDeMejoramiento.datos
@@ -85,8 +86,7 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 SqlCommand cmd = new SqlCommand(
                     "UPDATE aprendiz SET nombres=@nombres, apellidos=@apellidos, tipoDocumento=@tipoDocumento, " +
                     "numeroDocumento=@numeroDocumento, correo=@correo, telefono=@telefono, fechaNacimiento=@fechaNacimiento, idFicha=@idFicha " +
-                    "WHERE idAprendiz=@idAprendiz",
-                    conexion);
+                    "WHERE idAprendiz=@idAprendiz", conexion);
 
                 cmd.Parameters.AddWithValue("@idAprendiz", aprendiz.idAprendiz);
                 cmd.Parameters.AddWithValue("@nombres", aprendiz.nombres);
@@ -179,13 +179,16 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                 cmd.Parameters.AddWithValue("@idAprendiz", idAprendiz);
                 respuesta = cmd.ExecuteNonQuery() > 0;
             }
-            finally { cn.MtCerrarConexion(); }
+            finally 
+            { 
+                cn.MtCerrarConexion(); 
+            }
             return respuesta;
         }
 
-        public System.Data.DataTable ListarAprendicesPorInstructor(int idInstructor)
+        public DataTable ListarAprendicesPorInstructor(int idInstructor)
         {
-            System.Data.DataTable dt = new System.Data.DataTable();
+            DataTable dt = new DataTable();
             try
             {
                 SqlCommand cmd = new SqlCommand(
@@ -196,6 +199,7 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                     "ORDER BY a.apellidos, a.nombres",
                     cn.MtAbrirConexion());
                 cmd.Parameters.AddWithValue("@idInstructor", idInstructor);
+
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
             }
@@ -214,22 +218,6 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
                         AND LOWER(LTRIM(RTRIM(ISNULL(estado, '')))) IN ('cancelado', 'canselado', 'cancelada', 'canselada')",
                     cn.MtAbrirConexion());
                 cmd.Parameters.AddWithValue("@idAprendiz", idAprendiz);
-                return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
-            }
-            finally { cn.MtCerrarConexion(); }
-        }
-
-        public bool AprendizEstaCanceladoPorIdUsuario(int idUsuario)
-        {
-            try
-            {
-                SqlCommand cmd = new SqlCommand(
-                    @"SELECT COUNT(1)
-                      FROM aprendiz
-                      WHERE idUsuario = @idUsuario
-                        AND LOWER(LTRIM(RTRIM(ISNULL(estado, '')))) IN ('cancelado', 'canselado', 'cancelada', 'canselada')",
-                    cn.MtAbrirConexion());
-                cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
                 return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
             }
             finally { cn.MtCerrarConexion(); }
@@ -296,7 +284,9 @@ namespace sistemaGestionPlanesDeMejoramiento.datos
             cmd.Parameters.AddWithValue("@idAprendizExcluir", idAprendizExcluir.HasValue ? (object)idAprendizExcluir.Value : DBNull.Value);
 
             if (Convert.ToInt32(cmd.ExecuteScalar()) >= 30)
+            {
                 throw new InvalidOperationException("No se puede asignar el aprendiz porque la ficha ya tiene 30 aprendices.");
+            }    
         }
 
         public List<ClResultado> ObtenerResultadosPendientes(int idAprendiz)

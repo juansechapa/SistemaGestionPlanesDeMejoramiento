@@ -14,7 +14,7 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <nav class="navbar navbar-expand px-3">
+        <nav class="navbar navbar-expand px-3 app-topbar">
             <div class="container-fluid">
                 <span class="navbar-brand">
                     <i class="fas fa-chalkboard-teacher me-2"></i>Planes de Mejoramiento - Instructor
@@ -30,10 +30,10 @@
             </div>
         </nav>
 
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-2 col-lg-2 sidebar p-3">
-                    <h6 class="sidebar-heading">Menú Instructor</h6>
+        <div class="container-fluid app-shell">
+            <div class="row app-layout g-0">
+                <div class="col-12 col-lg-2 sidebar p-3">
+                    <h6 class="sidebar-heading">Menu Instructor</h6>
                     <ul class="nav flex-column">
                         <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/vista/Instructor/InicioInstructor.aspx") %>"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/vista/Instructor/MisPlanes.aspx") %>"><i class="fas fa-clipboard-list"></i>Mis Planes</a></li>
@@ -41,9 +41,9 @@
                         <li class="nav-item"><a class="nav-link" href="<%= ResolveUrl("~/vista/Instructor/Evaluaciones.aspx") %>"><i class="fas fa-check-circle"></i>Evaluaciones</a></li>
                     </ul>
                 </div>
-                <div class="col-md-10 col-lg-10 p-4">
+                <main class="col-12 col-lg-10 p-4 app-content">
                     <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
-                </div>
+                </main>
             </div>
         </div>
 
